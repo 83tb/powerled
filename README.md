@@ -48,7 +48,7 @@ Can be more than one. Responsible for talking to hardware.
 
 
 
-## usage
+## Usage
 
 ### Prepare everything before first run
 
