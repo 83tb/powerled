@@ -1,5 +1,5 @@
 # POWERLED
-
+Tickets: *https://github.com/83tb/powerled/issues*
 ![ScreenShot](http://icons.iconarchive.com/icons/robsonbillponte/iRob/256/Drives-Server-icon.png)
 
 
@@ -57,6 +57,7 @@ pip install -r requirements.txt
 ## How it works
 
 *Powerled are two webservers, worker process(es) and clients*
+
 
 
 ##### First server - classic web server, port 80
