@@ -1,3 +1,4 @@
+import redis
 
 class RedisQueue(object):
     """Simple Queue with Redis Backend"""

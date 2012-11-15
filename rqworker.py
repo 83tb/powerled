@@ -22,10 +22,11 @@ from lpanel.redisq import RedisQueue
 q = RedisQueue('LEDY')
 
 # kolejka
+import time
 
 while 1:
     if not q.empty():
-
+        #time.sleep(1)
         text = q.get()
         if "led" in text:
 

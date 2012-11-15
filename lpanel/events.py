@@ -12,6 +12,8 @@ from redisq import RedisQueue
 
 #from rqwrk import set_dim_level
 
+q = RedisQueue('LEDY')
+
 @events.on_message(channel="^warehouse-")
 def message(request, socket, context, message):
     """
@@ -71,7 +73,7 @@ def message(request, socket, context, message):
 
             # Put potential order to the queue
             text = str(message["message"])
-            q = RedisQueue('LEDY')
+
             q.put(text)
 
 
