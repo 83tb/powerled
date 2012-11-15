@@ -14,3 +14,4 @@ src/facebook
 src/pip-delete-this-directory.txt
 .DS*
 *~
+dev.db

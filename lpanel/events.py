@@ -93,12 +93,12 @@ def message(request, socket, context, message):
 
         #print "Testing if user ok:"
 
-        #try:
-        #    user = context["user"]
-        #    print "Yes"
-        #except KeyError:
-        #    print "No"
-        #    return
+        try:
+            user = context["user"]
+            print "Yes"
+        except KeyError:
+            print "No"
+            pass
 
         if message["action"] == "message":
             print "Yeah, this is the message"
