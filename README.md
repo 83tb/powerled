@@ -2,7 +2,7 @@
 
 ![ScreenShot](http://icons.iconarchive.com/icons/robsonbillponte/iRob/256/Drives-Server-icon.png)
 
-## Installation
+# FEATURES
 
 ```python
 WEBSOCKET SERVER (SOCKETIO)
@@ -25,6 +25,9 @@ WAREHOUSES HAVE VIRTUAL REPRESANTATION, USER IN THE SYSTEM ARE MESSAGING EACH OT
 
 USER INTERFACE USES WEBSOCKETS. REALTIME INFORMATION
 ```
+
+
+## Installation
 
 * Get the source
 * Install missing packets
