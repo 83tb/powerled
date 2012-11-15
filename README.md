@@ -17,8 +17,8 @@ pip install -r requirements.txt
 
 ## how it works
 
-Powerled are two webservers, worker process(es) and clients
-===========================================================
+*Powerled are two webservers, worker process(es) and clients*
+
 
 ##### First server - classic web server, port 80
 
