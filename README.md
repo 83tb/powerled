@@ -74,6 +74,10 @@ python2.7 manage.py runserversocketio 0.0.0.0:9000
 ```
 
 ### Run Redis
+```python
+redis-server
+
+```
 
 Redis is a NoSQL data store. Not like MongoDB (which is a disk-based document data store).
 Persistence to disk means you can use Redis as a real database instead of just a volatile cache.
