@@ -37,19 +37,19 @@ Can be more than one. Responsible for talking to hardware.
 ### Run main server
 ```python
 python2.7 manage.py runserver 0.0.0.0:80
-cd powerled/
+
 ```
 
 ###Run websocket server
 ```python
 python2.7 manage.py runserversocketio 0.0.0.0:9000
-cd powerled/
+
 ```
 
 ###Run worker
 ```python
 python rqworker.py
-cd powerled/
+
 ```
 
 
