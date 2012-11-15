@@ -96,6 +96,16 @@ python rqworker.py
 ```
 
 
+## Arduino
+
+* Arduino UNO
+* USB cable
+* two red diodes
+* two resistors
+
+*Diodes are connected to 9 and 10 PIN in the Arduino. Arduino has Standard Firmata as a firmware.*
+
+
 
 
 
