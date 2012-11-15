@@ -36,7 +36,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-STATIC_ROOT = PROJECT_ROOT+"/static/"
+STATIC_ROOT = PROJECT_ROOT+"/lpanel/static/"
 
 STATIC_URL = "/static/"
 ROOT_URLCONF = "urls"
