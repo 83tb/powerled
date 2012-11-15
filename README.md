@@ -47,6 +47,14 @@ Can be more than one. Responsible for talking to hardware.
 
 ## usage
 
+### Prepare everything before first run
+
+```python
+python2.7 manage.py syncdb
+
+```
+
+This will prepare database for slowly changing things, like warehouses, lamp layouts, etc.
 
 
 
@@ -61,6 +69,18 @@ python2.7 manage.py runserver 0.0.0.0:80
 python2.7 manage.py runserversocketio 0.0.0.0:9000
 
 ```
+
+### Run Redis
+
+It's a NoSQL data store. Not like MongoDB (which is a disk-based document data store), though MongoDB could be used for similar key/value use cases. The closest analog is probably to think of Redis as Memcached, but with built-in persistence (snapshotting or journaling to disk) and more datatypes.
+
+Those two additions may seem pretty minor, but they are what make Redis pretty incredible. Persistence to disk means you can use Redis as a real database instead of just a volatile cache. The data won't disappear when you restart, like with memcached.
+
+The additional data types are probably even more important. Key values can be simple strings, like you'll find in memcached, but they can also be more complex types like Hashes, Lists (ordered collection, makes a great queue), Sets (unordered collection of non-repeating values), or Sorted Sets (ordered/ranked collection of non-repeating values).
+
+This is only the tip of the Redis iceburg, as there are other powerful features like built-in pub/sub and transactions (with optimistic locking).
+
+
 
 ###Run worker
 ```python
