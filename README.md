@@ -2,7 +2,7 @@
 
 ## Installation
 
-
+```python
 ###[*] WEBSOCKET SERVER
 
 ###[*] REDIS QUEUE MANAGEMENT
@@ -16,7 +16,7 @@
 ###[*] READABLE UNIX-LIKE PROTOCOL, like 'led 9 0.1'
 
 ###[*] MULTILANGUAGE, CAN WRITE PLUGIN IN AWK
-
+```
 
 * Get the source
 * Install missing packets
