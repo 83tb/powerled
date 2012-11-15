@@ -91,6 +91,9 @@ We use it for handling hardware calls and information from the IO bus.
 
 ###Run worker
 ```python
+# Adjust 5th line of the rqworker.py with your serial device address
+board = Arduino('/dev/tty.usbmodemfa141')
+# and then
 python rqworker.py
 
 ```
