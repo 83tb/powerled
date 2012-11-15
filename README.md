@@ -15,7 +15,7 @@ cd powerled/
 pip install -r requirements.txt
 ```
 
-### how it works
+## how it works
 
 #### Powerled are three servers and a client.
 
