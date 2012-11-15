@@ -27,7 +27,7 @@ import time
 while 1:
     if not q.empty():
         #time.sleep(1)
-        text = q.get()
+        text = q.get(block=True)
         if "led" in text:
 
             led_pin = text.split()[1]
