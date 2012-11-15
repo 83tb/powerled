@@ -1,7 +1,0 @@
--- SOURCE --
-
-git clone
-
-
-
--- INSTALL --
