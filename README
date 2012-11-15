@@ -1,2 +1,16 @@
-== README ==
-*Kuba*
+# POWERLED
+
+## Installation
+
+
+### Getting the source
+
+
+### Required packages
+
+pip install -r requirements.txt
+
+
+
+
+## usage
