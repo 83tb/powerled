@@ -127,3 +127,68 @@ while 1:
             print q.get()
 
 ```
+
+
+## How is adding message to the queue handled
+
+```python
+q = RedisQueue('LEDY')
+
+@events.on_message(channel="^warehouse-")
+def message(request, socket, context, message):
+    """
+    Event handler for a warehouse receiving a message. First validates a
+    joining user's name and sends them the list of users.
+    """
+
+
+    warehouse = get_object_or_404(Warehouse, id=message["warehouse"])
+
+    if message["action"] == "start":
+        name = strip_tags(message["name"])
+        user, created = warehouse.users.get_or_create(name=name)
+
+        if not created:
+            socket.send({"action": "in-use"})
+        else:
+
+            context["user"] = user
+            users = [u.name for u in warehouse.users.exclude(id=user.id)]
+            socket.send({"action": "started", "users": users})
+            user.session = socket.session.session_id
+            user.save()
+            joined = {"action": "join", "name": user.name, "id": user.id}
+            socket.send_and_broadcast_channel(joined)
+
+    else:
+
+        print "Testing if user ok:"
+
+        try:
+            user = context["user"]
+            print "Yes"
+        except KeyError:
+            print "No"
+            pass
+
+        if message["action"] == "message":
+
+
+            message["message"] = strip_tags(message["message"])
+            try:
+
+                message["name"] = user.name
+            except:
+                message["name"] = "generic"
+
+
+            # Sends a message over websockets to all clients subscribed to the channel
+            socket.send_and_broadcast_channel(message)
+
+            # Put potential order to the queue
+            text = str(message["message"])
+
+            q.put(text)
+
+
+```
