@@ -3,22 +3,12 @@ from django.shortcuts import get_object_or_404
 from django.utils.html import strip_tags
 from django_socketio import events
 
-from redis import Redis
-from rq import Queue
-
-q = Queue(connection=Redis())
 
 from models import Warehouse
 
-
+from redisq import RedisQueue
 #def set_dim_level(led_pin, dim_level):
 #    .digital[led_pin].write(dim_level) # Set the LED pin to 1 (HIGH)
-
-
-
-
-
-
 
 #from rqwrk import set_dim_level
 
@@ -66,7 +56,7 @@ def message(request, socket, context, message):
             pass
 
         if message["action"] == "message":
-            print "Yeah, this is the message"
+
 
             message["message"] = strip_tags(message["message"])
             try:
@@ -75,33 +65,14 @@ def message(request, socket, context, message):
             except:
                 message["name"] = "generic"
 
+
+            # Sends a message over websockets to all clients subscribed to the channel
             socket.send_and_broadcast_channel(message)
 
-
+            # Put potential order to the queue
             text = str(message["message"])
-
-
-
-
-            try:
-
-                led_pin = text.split()[1]
-                #socket.send_and_broadcast_channel(led_pin)
-                #print led_pin
-                dim_level = text.split()[2]
-                #socket.send_and_broadcast_channel(dim_level)
-                #print dim_level
-                #from rqwrk import board
-                from arload import set_dim_level
-                result = q.enqueue(set_dim_level, int(led_pin), float(dim_level))
-                print result
-
-                #set_dim_level(int(led_pin), float(dim_level))
-                print "Dimming"
-            except:
-                pass
-
-
+            q = RedisQueue('LEDY')
+            q.put(text)
 
 
 
