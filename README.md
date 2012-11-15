@@ -29,6 +29,9 @@ USER INTERFACE USES WEBSOCKETS. REALTIME INFORMATION
 * Run 2 servers, one ram based db and a worker process
 * Connect with the client, you're ready to go
 
+![ScreenShot](http://icons.iconarchive.com/icons/robsonbillponte/iRob/256/Drives-Server-icon.png)
+
+
 ### Getting the source
 
 ```python
