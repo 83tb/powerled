@@ -43,7 +43,7 @@ apt-get install redis-server python-pip
 pip install -r requirements.txt
 ```
 
-## how it works
+## How it works
 
 *Powerled are two webservers, worker process(es) and clients*
 
@@ -62,9 +62,9 @@ Can be more than one. Responsible for talking to hardware.
 
 ##### Clients
 
-* mobile
-* html5 tablets
-* desktop
+* Mobile
+* Html5 tablets
+* Desktop
 
 
 
