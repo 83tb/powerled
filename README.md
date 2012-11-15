@@ -117,15 +117,12 @@ import time
 
 while 1:
     if not q.empty():
-        #time.sleep(1)
-        text = q.get()
-        if "led" in text:
 
+        text = q.get()
+
+        if "led" in text:
             led_pin = text.split()[1]
-            #print led_pin
             dim_level = text.split()[2]
-            #print dim_level
-            #set_dim_level(int(led_pin), float(dim_level))
             board.digital[int(led_pin)].write(float(dim_level))
             print q.get()
 
