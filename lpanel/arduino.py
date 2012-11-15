@@ -49,6 +49,8 @@ def set_dim_level_hard(led_pin, dim_level):
 
 #set_dim_level(9, 0.1)
 
+
+
 class ArduinoControl (Thread):
     def __init__(self, text):
         Thread.__init__(self)

@@ -52,3 +52,8 @@ INSTALLED_APPS = (
     'django_socketio',
     'lpanel',
 )
+
+
+#from pyfirmata import Arduino, util
+
+#BOARD = Arduino('/dev/tty.usbmodemfa141')

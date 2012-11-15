@@ -1,7 +1,21 @@
 
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
+
+
+
+
+##from pyfirmata import Arduino, util
+#board = Arduino('/dev/tty.usbmodemfa141')
+
+
+
+
+
+
+# somewhere else
 
 
 

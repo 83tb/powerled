@@ -3,59 +3,24 @@ from django.shortcuts import get_object_or_404
 from django.utils.html import strip_tags
 from django_socketio import events
 
+from redis import Redis
+from rq import Queue
 
+q = Queue(connection=Redis())
 
-
-#from arduinoControl import ArduinoControl
 from models import Warehouse
 
 
-from threading import Thread
-from firmata import *
-
-PIN = 9 # Pin 12 is used
-DELAY = 2 # A 2 seconds delay
+#def set_dim_level(led_pin, dim_level):
+#    .digital[led_pin].write(dim_level) # Set the LED pin to 1 (HIGH)
 
 
-from pyfirmata import Arduino, util
-board = Arduino('/dev/tty.usbmodemfa141')
 
-#board.digital[PIN].write(1) # Set the LED pin to 1 (HIGH)
-#board.digital[PIN].write(0) # Set the LED pin to 0 (LOW)
 
-#board.digital[PIN].mode = PWM
-#board.digital[PIN].write(256)
 
-DURATION = 5
-STEPS = 10
 
-digital_0 = board.get_pin('d:9:p')
-digital_1 = board.get_pin('d:10:p')
 
-#board.digital[PIN].write(0.9)
-
-# Waiting time between the
-#wait_time = DURATION/float(STEPS)
-
-# Note: Value range for PWM is 0.0 till 1.0
-
-# Up
-#for i in range(1, STEPS + 1):
-#    value = i/float(STEPS)
-#    digital_0.write(value)
-#    board.pass_time(wait_time)
-
-# Down
-#increment = 1/float(STEPS)
-#while STEPS > 0:
-#    value = increment * STEPS
-#    digital_0.write(value)
-#    board.pass_time(wait_time)
-#    STEPS = STEPS - 1
-
-def set_dim_level(led_pin, dim_level):
-    board.digital[led_pin].write(dim_level) # Set the LED pin to 1 (HIGH)
-
+#from rqwrk import set_dim_level
 
 @events.on_message(channel="^warehouse-")
 def message(request, socket, context, message):
@@ -91,7 +56,7 @@ def message(request, socket, context, message):
 
     else:
 
-        #print "Testing if user ok:"
+        print "Testing if user ok:"
 
         try:
             user = context["user"]
@@ -126,7 +91,12 @@ def message(request, socket, context, message):
                 dim_level = text.split()[2]
                 #socket.send_and_broadcast_channel(dim_level)
                 #print dim_level
-                set_dim_level(int(led_pin), float(dim_level))
+                #from rqwrk import board
+                from arload import set_dim_level
+                result = q.enqueue(set_dim_level, int(led_pin), float(dim_level))
+                print result
+
+                #set_dim_level(int(led_pin), float(dim_level))
                 print "Dimming"
             except:
                 pass
