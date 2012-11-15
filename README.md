@@ -16,7 +16,7 @@ cd powerled/
 ### Required packages
 ```python
 # we're gonna need redis for our workers
-apt-get install redis-server
+apt-get install redis-server python-pip
 
 # to install all python packets needed for powerled to work
 pip install -r requirements.txt
