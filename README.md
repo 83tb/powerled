@@ -69,7 +69,7 @@ python2.7 manage.py runserver 0.0.0.0:80
 
 ###Run websocket server
 ```python
-python2.7 manage.py runserversocketio 0.0.0.0:9000
+python2.7 manage.py runserver_socketio 0.0.0.0:9000
 
 ```
 
