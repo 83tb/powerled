@@ -1,0 +1,4 @@
+django-socketio
+redis
+pyfirmata
+

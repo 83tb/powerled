@@ -36,7 +36,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-STATIC_ROOT = "/Users/kuba/Code/powerled/static/"
+STATIC_ROOT = PROJECT_ROOT+"/static/"
 
 STATIC_URL = "/static/"
 ROOT_URLCONF = "urls"

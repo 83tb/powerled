@@ -12,6 +12,10 @@ cd powerled/
 
 ### Required packages
 ```python
+# we're gonna need redis for our workers
+apt-get install redis-server
+
+# to install all python packets needed for powerled to work
 pip install -r requirements.txt
 ```
 
@@ -32,7 +36,18 @@ For asynchronous communication between all nodes of the network.
 
 Can be more than one. Responsible for talking to hardware.
 
+##### Clients
+
+* mobile
+* html5 tablets
+* desktop
+
+
+
+
 ## usage
+
+
 
 
 ### Run main server
