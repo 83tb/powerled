@@ -37,7 +37,7 @@ def message(request, socket, context, message):
         if not created:
             socket.send({"action": "in-use"})
         else:
-        #if True:
+
             context["user"] = user
             users = [u.name for u in warehouse.users.exclude(id=user.id)]
             socket.send({"action": "started", "users": users})

@@ -199,3 +199,26 @@ def message(request, socket, context, message):
 
 
 ```
+
+
+
+## Session handling
+
+```python
+
+    if message["action"] == "start":
+        name = strip_tags(message["name"])
+        user, created = warehouse.users.get_or_create(name=name)
+        if not created:
+            socket.send({"action": "in-use"})
+        else:
+
+            context["user"] = user
+            users = [u.name for u in warehouse.users.exclude(id=user.id)]
+            socket.send({"action": "started", "users": users})
+            user.session = socket.session.session_id
+            user.save()
+            joined = {"action": "join", "name": user.name, "id": user.id}
+            socket.send_and_broadcast_channel(joined)
+
+```
