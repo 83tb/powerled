@@ -107,7 +107,7 @@ python rqworker.py
 
 
 
-## How looks the worker code now
+## How the worker code looks now
 
 ```python
 q = RedisQueue('LEDY')
@@ -126,4 +126,4 @@ while 1:
             board.digital[int(led_pin)].write(float(dim_level))
             print q.get()
 
-```python
+```
