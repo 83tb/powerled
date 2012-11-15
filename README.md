@@ -2,6 +2,16 @@
 
 ## Installation
 
+
+[*] WEBSOCKET SERVER
+[*] REDIS QUEUE MANAGEMENT
+[*] SQLITE DATABASE
+[*] PYTHON WORKERS, HARDWARE CONNECTIONS, EASY ADDRESSING
+[*] HTML5 TABLET
+[*] READABLE UNIX-LIKE PROTOCOL, like 'led 9 0.1'
+[*] MULTILANGUAGE, CAN WRITE PLUGIN IN AWK
+
+
 * Get the source
 * Install missing packets
 * Run 2 servers, one ram based db and a worker process
