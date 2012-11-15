@@ -95,7 +95,8 @@ We use it for handling hardware calls and information from the IO bus.
 board = Arduino('/dev/tty.usbmodemfa141')
 ```
 
-# and then
+and then
+
 ```python
 python rqworker.py
 
