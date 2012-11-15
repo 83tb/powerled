@@ -5,6 +5,7 @@
 * Get the source
 * Install missing packets
 * Run 2 servers, one ram based db and a worker process
+* Connect with the client, you're ready to go
 
 ### Getting the source
 
