@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ warehouse }}{% endblock %}
+
+{% block extra_js %}
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+{% load socketio_tags %}
+{% socketio %}
+<script src="{{ STATIC_URL }}js/warehouse.js"></script>
+<script>window.warehouse = {{ warehouse.id }};</script>
+{% endblock %}
+
+{% block main %}
+
+    <DIV id="lamps">
+
+
+        <H1>HALA {{ warehouse.name }}</h1>
+        <BR>
+        <canvas id="myCanvas" width="500" height="200"></canvas>
+        <script>
+            var canvas = document.getElementById('myCanvas');
+            var context = canvas.getContext('2d');
+            var centerX = canvas.width / 2;
+            var centerY = canvas.height / 2;
+            var radius = 40;
+
+            context.beginPath();
+            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+            context.fillStyle = 'red';
+            context.fill();
+            context.lineWidth = 5;
+            context.strokeStyle = '#003300';
+            context.stroke();
+
+
+            var canvas = document.getElementById('myCanvas');
+            var context = canvas.getContext('2d');
+            var centerY = canvas.height / 2;
+            var radius = 40;
+
+            context.beginPath();
+            context.arc(centerX-150, centerY, radius, 0, 2 * Math.PI, false);
+            context.fillStyle = 'red';
+            context.fill();
+            context.lineWidth = 5;
+            context.strokeStyle = '#003300';
+            context.stroke();
+
+
+
+        </script>
+    </DIV>
+
+<ul id="messages">
+    <script type="text/x-jquery-tmpl"><li class="${action}">(${time}) ${name}: ${message}</li></script>
+</ul>
+<ul id="users">
+    <script type="text/x-jquery-tmpl"><li id="user-${id}">${name}</li></script>
+</ul>
+{% endblock %}
+
+
+
+{% block form %}
+
+
+
+
+<form>
+    <input type="text" id="message" name="message">
+    <input type="submit" id="submit" value="Enter Warehouse As">
+    <input type="button" id="leave" value="Leave Warehouse">
+</form>
+{% endblock %}

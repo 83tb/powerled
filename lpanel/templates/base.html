@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <style>
+
+        #myCanvas {
+            border: 1px solid #9C9898;
+        }
+    </style>
+    <meta charset="utf-8">
+    <title>{% block title %}Chat{% endblock %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/warehouse.css">
+    {% block extra_css %}{% endblock %}
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        var showForm = function() {
+            $('form').slideDown(function() {
+                $('form input[type="text"]').focus();
+            });
+        };
+    </script>
+    {% block extra_js %}{% endblock %}
+
+</head>
+<body>
+    <div id="main">{% block main %}{% endblock %}</div>
+
+
+    {% block form %}{% endblock %}
+</body>

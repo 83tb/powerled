@@ -1,0 +1,16 @@
+env
+*.log
+*.pot
+*.pyc
+.project
+.pydevproject
+.settings
+.idea/*
+sqlite.db
+localsettings.py
+*.iml
+.idea/
+src/facebook
+src/pip-delete-this-directory.txt
+.DS*
+*~
