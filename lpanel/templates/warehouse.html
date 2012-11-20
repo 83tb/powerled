@@ -2,56 +2,275 @@
 
 {% block title %}{{ warehouse }}{% endblock %}
 
+{% block extra_css %}
+<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/holo/holo.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/holo/holo-light.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheet.css" />
+{% endblock %}
+
 {% block extra_js %}
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!--<script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
 <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 {% load socketio_tags %}
 {% socketio %}
 <script src="{{ STATIC_URL }}js/warehouse.js"></script>
-<script>window.warehouse = {{ warehouse.id }};</script>
+<script>window.warehouseID = {{ warehouse.id }};</script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile-1.2.0/jquery.mobile-1.2.0.js"></script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/powermanager.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/warehouse_controlls.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/socket.io.client.js"></script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+
+		<script type="text/javascript">
+	jQuery(document).bind("mobileinit", function(){
+		$.mobile.touchOverflowEnabled = true;
+	});
+	jQuery(document).ready(function() {
+			warehouse = new jQuery("#warehouse").warehouselamps({
+				'warehouseID': window.warehouseID,
+				'user': name,
+				'width': 100,
+				'height': 100,
+				'maxTemp':350, //{{ warehouse.maxTemp }},
+				'maxLux':1200, //{{ warehouse.maxLux }},
+				'debug': true
+			});
+			var sliderBrightness = jQuery('#lampBrightness').slider({ disabled: true });
+			sliderBrightness.bind('slidestop change', function(event, ui) {
+				var current = jQuery(this).attr('rel');
+				var val = jQuery(this).val();
+				if(val == 0){
+					switchOnOff.val(4).slider('refresh');
+				}
+				jQuery.each(jQuery('.clicked'), function() {
+					var LampID = $(this).attr('id');
+					var data = '{"'+String(current) +'":'+ parseFloat(val)+'}';
+					var update = (event.type == 'slidestop')? true : false;
+					setLamp(LampID, data, update);
+				});
+				console.log(event.type);
+				console.log(current);
+			});
+
+			var sliderLux = jQuery('#lampLux').slider({ disabled: true });
+			sliderLux.bind('slidestop change', function(event, ui) {
+				var current = jQuery(this).attr('rel');
+				var val = jQuery(this).val();
+				jQuery.each(jQuery('.clicked'), function() {
+					var LampID = $(this).attr('id');
+					var data = '{"'+String(current) +'":'+ parseFloat(val)+'}';
+					var update = (event.type == 'slidestop')? true : false;
+					setLamp(LampID, data, update);
+				});
+				console.log(current);
+			});
+
+			var switchSync = jQuery('#syncSwitch').slider('disable');
+
+			var switchOnOff = jQuery('#lampStatus').slider('disable');
+			switchOnOff.change(function(){
+				jQuery.each(jQuery('.clicked'), function() {
+					var LampID = $(this).attr('id');
+					setLamp(LampID, '{"state" : ' + parseFloat(switchOnOff.val()) + '}', true);
+				});				
+			});
+
+//			$('#masterButton').click(function() {
+//				location.reload(true);
+//			});
+
+//			tempImg.addEventListener('load', function(e) {
+//			tempImg.onload = function() {
+//				warehouse.warehouselamps().$.initLamps();
+//			};
+//			}, true);
+		selectLamp = function (itemID, dblclick) {
+			warehouse.warehouselamps().$.getLamp(itemID)
+			console.log(warehouse.warehouselamps().$.getLamp(itemID));
+			if(dblclick){
+				switch(LampID.lamp_data.state){
+					case 1:
+						var state = 4;
+						break;
+					case 4:
+						var state = 1;
+						break;
+					default:
+						var state = LampID.lamp_data.state;
+				}
+				LampID.lamp_data.state = state;
+				setLamp(LampID, LampID.lamp_data);
+			}
+//			slider.slider("value", LampID.lamp_data.val);
+			sliderBrightness.val(LampID.lamp_data.val).slider('refresh').slider('enable');
+			sliderLux.val(LampID.lamp_data.lux).slider('refresh').slider('enable');
+			onOffState = (LampID.lamp_data.val == 0)? 4 : LampID.lamp_data.state;
+			switchOnOff.val(onOffState).slider('refresh').slider('enable');
+//			console.log({'setLamp':LampID});
+		}
+
+		});
+
+		setLamp = function(lamp, lamp_data, send) {
+			var data = (jQuery.type(lamp_data) == 'object')? lamp_data : jQuery.parseJSON(lamp_data);
+			warehouse.warehouselamps().$.updateStatus(lamp, data);
+			if(send){
+				toggleLoading(lamp, true);
+
+//				var data = jQuery.parseJSON(lamp_data);
+//				var send_data_tmp = {'warehouse': window.warehouse.warehouseID, 'action': 'message', 'message': 'led '+lamp+' '+data.val/100, 'name': window.warehouse.user};
+//				console.log(send_data_tmp);
+//				msg('{"LampID":'+lamp+',"lamp_data":{'+lamp_data+'}}');
+				var send_data = {'warehouse': window.warehouseID, 'action': 'message', 'message': 'led '+lamp+' '+data.val/100, 'name': 'miko'};
+				msg(send_data);
+				console.log('Send: '+lamp+' '+ ((jQuery.type(data) == 'object')?JSON.stringify(data):data));
+			}
+		}
+
+		bindUI = function() {
+			jQuery('.lamp')
+			.unbind()
+			.single_double_click(function(event){
+					event.preventDefault();
+					if(event.shiftKey){
+//						selectLamp(jQuery(this).attr('id'), false);
+						jQuery(this).toggleClass('clicked');
+						console.log(this);
+					}else{
+						$('.lamp').removeClass('clicked');
+						selectLamp(jQuery(this).attr('id'), false);
+						jQuery(this).addClass('clicked');
+					}
+				}, function(event){
+					event.preventDefault();
+					$('.lamp').removeClass('clicked');
+					selectLamp(jQuery(this).attr('id'), true);
+					jQuery(this).addClass('clicked');
+			})
+			.bind('taphold', function(event){
+//					selectLamp(jQuery(this).attr('id'), false);
+					jQuery(this).toggleClass('clicked');
+					event.preventDefault();
+					window.navigator.vibrate(100);
+					console.log(this);
+			});
+		}
+
+		WebFont.load({
+			custom: {
+				families: ['RobotoRegular', 'RobotoCondensed', 'RobotoBold', 'RobotoBoldCondensed'],
+				urls: ['{{ STATIC_URL }}css/fonts/stylesheet.css'],
+			},
+			active: function() {
+				var send_data = {'warehouse': window.warehouseID, 'action': 'getlamps'};
+				msg(send_data);
+			},
+		});
+		</script>
+
 {% endblock %}
 
 {% block main %}
 
-    <DIV id="lamps">
+	    <div id="lamps">
+			<header class="ui-header" data-role="header" role="banner">
+				<div class="holo-action-bar">
+					<h1><a href="#" id="masterButton" class="holo-up">Powermanager - Hala {{ warehouse.name }}</a></h1>
+					<ul class="holo-action-buttons">
+						<li>
+							<a href="#" class="holo-search" title="Search">Q</a>
+						</li>
+						<li>
+							<a href="#" class="holo-action-overflow">Ξ</a>
+						</li>
+					</ul>
 
+					<div class="holo-fixed-tabs">
+						<nav>
+							<ul id="nav">
+								<li>
+									<a href="#home" class="current-tab">Options</a>
+								</li>
+								<li>
+									<a href="#examples" class="">Examples</a>
+								</li>
+								<li>
+									<a href="#about" class="">About</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</header>
+			<div class="holo-content ui-content" data-role="content" role="main">
+				<section id="warehouse"></section>
+				<aside id="controls">
+					<script>
+					$(document).delegate('.ui-navbar ul li > a', 'click', function() {
+						//un-highlight and highlight only the buttons in the same navbar widget
+						$(this).closest('.ui-navbar').find('a').removeClass('ui-navbar-btn-active');
+						//this bit is the same, you could chain it off of the last call by using two `.end()`s
+						$(this).addClass('ui-navbar-btn-active');
+						//this starts the same but then only selects the sibling `.content_div` elements to hide rather than all in the DOM
+						$('#' + $(this).attr('data-href')).show().siblings('fieldset').hide();
+					});
+					</script>
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#" data-href="lampsControls" class="ui-btn-active ui-state-persist">Controls</a></li>
+							<li><a href="#" data-href="sync">Sync<span id="syncStatus"></span></a></li>
+							<li><a href="#" data-href="nicelog">Console</a></li>
+						</ul>
+					</div><!-- /navbar -->
+					<form>
+						<fieldset id="lampsControls">
+						<label for="lampBrightness">Brightness:</label>
+						<input type="range" name="lampBrightness" id="lampBrightness" class="lampSlider" rel="val" value="0" min="0" max="100"  />
+						<label for="lampLux">Luxometer:</label>
+						<input type="range" name="lampLux" id="lampLux" class="lampSlider" rel="lux" value="0" min="0" max="<?php echo $maxLux; ?>"  />
+						<label for="lampStatus">Lamp:</label>
+						<select name="lampStatus" id="lampStatus" data-role="slider">
+							<option value="4">Off</option>
+							<option value="1">On</option>
+						</select>
+						</fieldset>
 
-        <H1>HALA {{ warehouse.name }}</h1>
-        <BR>
-        <canvas id="myCanvas" width="500" height="200"></canvas>
-        <script>
-            var canvas = document.getElementById('myCanvas');
-            var context = canvas.getContext('2d');
-            var centerX = canvas.width / 2;
-            var centerY = canvas.height / 2;
-            var radius = 40;
-
-            context.beginPath();
-            context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-            context.fillStyle = 'red';
-            context.fill();
-            context.lineWidth = 5;
-            context.strokeStyle = '#003300';
-            context.stroke();
-
-
-            var canvas = document.getElementById('myCanvas');
-            var context = canvas.getContext('2d');
-            var centerY = canvas.height / 2;
-            var radius = 40;
-
-            context.beginPath();
-            context.arc(centerX-150, centerY, radius, 0, 2 * Math.PI, false);
-            context.fillStyle = 'red';
-            context.fill();
-            context.lineWidth = 5;
-            context.strokeStyle = '#003300';
-            context.stroke();
-
-
-
-        </script>
-    </DIV>
+						<fieldset id="sync">
+						<label for="user_name">Name:</label>
+						<input type="text" name="user_name" id="user_name" data-mini="true" />
+						<label for="warehouseID" class="select">Warehouse:</label>
+						<select name="warehouseID" id="warehouseID" data-mini="true">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+						<label for="syncSwitch">Sync:</label>
+						<select name="syncSwitch" id="syncSwitch" data-role="slider">
+							<option value="off">Off</option>
+							<option value="on">On</option>
+						</select>
+						<label for="socketHost">Socket server:</label>
+						<input type="text" name="socketHost" id="socketHost" data-mini="true" />
+						<label for="socketPort">Port:</label>
+						<input type="text" name="socketPort" id="socketPort" data-mini="true" />
+						</fieldset>
+						<fieldset id="nicelog"><div class="log"></div></fieldset>
+					</form>
+					<p id="currentVal"></p>
+				</aside>
+				<footer>
+					<p>
+						&copy; Copyright by Diznet Studio & Sel-Telecom
+					</p>
+				</footer>
+				<div id="log"></div>
+			</div>
+		</div>
 
 <ul id="messages">
     <script type="text/x-jquery-tmpl"><li class="${action}">(${time}) ${name}: ${message}</li></script>

@@ -41,26 +41,27 @@ $(function() {
         if (value) {
             if (!started) {
                 name = value;
-                data = {warehouse: window.warehouse, action: 'start', name: name};
+                data = {warehouse: window.warehouseID, action: 'start', name: name};
             } else {
-                data = {warehouse: window.warehouse, action: 'message', message: value};
+                data = {warehouse: window.warehouseID, action: 'message', message: value};
             }
-            socket.send(data);
+//            socket.send(data);
+            msg(data);
         }
         $('#message').val('').focus();
         return false;
     });
 
-    $('#leave').click(function() {
+    $('#leave, #masterButton').click(function() {
         location = '/';
     });
 
     var socket;
 
     var connected = function() {
-        socket.subscribe('warehouse-' + window.warehouse);
+        socket.subscribe('warehouse-' + window.warehouseID);
         if (name) {
-            socket.send({warehouse: window.warehouse, action: 'start', name: name});
+            socket.send({warehouse: window.warehouseID, action: 'start', name: name});
         } else {
             showForm();
         }
@@ -99,15 +100,15 @@ $(function() {
         }
     };
 
-    var start = function() {
-        socket = new io.Socket();
-        socket.connect();
-        socket.on('connect', connected);
-        socket.on('disconnect', disconnected);
-        socket.on('message', messaged);
-    };
-
-    start();
+//    var start = function() {
+//        socket = new io.Socket();
+//        socket.connect();
+//        socket.on('connect', connected);
+//        socket.on('disconnect', disconnected);
+//        socket.on('message', messaged);
+//    };
+//
+//    start();
 
 });
 
