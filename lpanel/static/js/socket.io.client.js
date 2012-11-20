@@ -100,10 +100,10 @@ if (syncOn == 'socket.io') {
 						});
 					});
 					break;
-				case 'init':
+				case 'getlamps':
 					if (!inited) {
 						inited = true;
-						warehouse.warehouselamps().$.initLamps(data.lamps);
+						warehouse.warehouselamps().$.initLamps(data.message);
 						bindUI();
 					}
 					break;
