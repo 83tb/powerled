@@ -14,6 +14,10 @@ from redisq import RedisQueue
 
 q = RedisQueue('LEDY')
 
+
+
+
+
 @events.on_message(channel="^warehouse-")
 def message(request, socket, context, message):
     """
@@ -73,8 +77,29 @@ def message(request, socket, context, message):
 
             # Put potential order to the queue
             text = str(message["message"])
-
             q.put(text)
+
+        if message["action"] == "getlamps":
+
+
+            #message["message"] = strip_tags(message["message"])
+            #try:
+
+            #    message["name"] = user.name
+            #except:
+            message["name"] = "generic"
+
+
+            message['message'] = '''{"1":{"val": 81, "temp": 215, "state": 1, "lux": 931},"2":{"val": 59, "temp": 135, "state": 1, "lux": 1006},"3":{"val": 1, "temp": 31, "state": 3, "lux": 914},"4":{"val": 30, "temp": 164, "state": 3, "lux": 962},"5":{"val": 78, "temp": 178, "state": 4, "lux": 1106},"6":{"val": 80, "temp": 300, "state": 2, "lux": 970},"7":{"val": 3, "temp": 23, "state": 4, "lux": 439},"8":{"val": 75, "temp": 21, "state": 3, "lux": 667},"9":{"val": 68, "temp": 214, "state": 2, "lux": 316},"10":{"val": 100, "temp": 155, "state": 1, "lux": 12}}'''
+
+
+
+
+            # Sends a message over websockets to all clients subscribed to the channel
+            socket.send_and_broadcast_channel(message)
+
+
+            #q.put(text)
 
 
 
