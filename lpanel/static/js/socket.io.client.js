@@ -152,9 +152,24 @@ function msg(data) {
 
 function write(data, from) {
 	var time = new Date().toLocaleTimeString();
-	console.log(data);
 	var text = (jQuery.type(data) == 'object') ? JSON.stringify(data) : data;
 //	addItem('#messages', time + ':' + text);
 	jQuery("#messages").append('<li>' + time + ' ' + from + ': ' + text + '<br />');
-	//	jQuery("#log").prepend(time +' '+ from + ': ' + text +'<br />');
+	console.log(time + ' ' + from + ': ' + text);
 }
+
+    $('#console').submit(function() {
+        var value = $('#message').val();
+        if (value) {
+            if (!started) {
+                name = value;
+                data = {warehouse: window.warehouseID, action: 'start', name: name};
+            } else {
+                data = {warehouse: window.warehouseID, action: 'message', message: value};
+            }
+//            socket.send(data);
+            msg(data);
+        }
+        $('#message').val('').focus();
+        return false;
+    });

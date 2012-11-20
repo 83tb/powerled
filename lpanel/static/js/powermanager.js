@@ -92,7 +92,6 @@ tempImg.src = tempGrad; //'temperature.jpg';
 		this._initLamps = function(lamps_data) {
 //			var lamps_data = '"1":{"val": 12, "temp": 90, "state": 3, "lux": 929},"2":{"val": 9, "temp": 29, "state": 4, "lux": 1160}';
 			var data = jQuery.parseJSON(lamps_data.replace(/\'/g, '"'));
-			console.log(data);
 			$.each(data, function(lamp, lamp_data) {
 				obj.createLamp(lamp);
 				obj._updateStatus(lamp, lamp_data);

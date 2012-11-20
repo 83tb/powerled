@@ -38,6 +38,7 @@ $(function() {
     };
 */
 
+/*
     $('form').submit(function() {
         var value = $('#message').val();
         if (value) {
@@ -52,7 +53,8 @@ $(function() {
         }
         $('#message').val('').focus();
         return false;
-    });
+    });*/
+
 
     $('#leave, #masterButton').click(function() {
         location = '/';

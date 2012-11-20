@@ -10,22 +10,19 @@
 {% endblock %}
 
 {% block extra_js %}
-<!--<script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile-1.2.0.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/powermanager.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/warehouse_controlls.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+
 <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 {% load socketio_tags %}
 {% socketio %}
-<script src="{{ STATIC_URL }}js/warehouse.js"></script>
-<script>window.warehouseID = {{ warehouse.id }};</script>
+<!-- <script src="{{ STATIC_URL }}js/warehouse.js"></script> -->
+<script type="text/javascript" src="{{ STATIC_URL }}js/socket.io.client.js"></script>
 
-		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile-1.2.0.js"></script>
-
-		<script type="text/javascript" src="{{ STATIC_URL }}js/powermanager.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/warehouse_controlls.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}js/socket.io.client.js"></script>
-
-		<script src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
-
-		<script type="text/javascript">
+<script type="text/javascript">
+		window.warehouseID = {{ warehouse.id }};
 	jQuery(document).bind("mobileinit", function(){
 		$.mobile.touchOverflowEnabled = true;
 	});
@@ -40,6 +37,7 @@
 				'debug': false
 			});
 			var sliderBrightness = jQuery('#lampBrightness').slider({ disabled: true });
+			sliderBrightness.unbind();
 			sliderBrightness.bind('slidestop change', function(event, ui) {
 				var current = jQuery(this).attr('rel');
 				var val = jQuery(this).val();
@@ -57,6 +55,7 @@
 			});
 
 			var sliderLux = jQuery('#lampLux').slider({ disabled: true });
+			sliderLux.unbind();
 			sliderLux.bind('slidestop change', function(event, ui) {
 				var current = jQuery(this).attr('rel');
 				var val = jQuery(this).val();
@@ -103,7 +102,7 @@
 						var state = LampID.lamp_data.state;
 				}
 				LampID.lamp_data.state = state;
-				setLamp(LampID, LampID.lamp_data);
+				setLamp(LampID, LampID.lamp_data, false);
 			}
 //			slider.slider("value", LampID.lamp_data.val);
 			sliderBrightness.val(LampID.lamp_data.val).slider('refresh').slider('enable');
@@ -290,7 +289,7 @@
 
 
 
-<form>
+<form id="console">
     <input type="text" id="message" name="message">
     <input type="submit" id="submit" value="Enter Warehouse As">
     <input type="button" id="leave" value="Leave Warehouse">
