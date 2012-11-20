@@ -5,21 +5,54 @@
 var syncOn = false;
 var syncOn = 'socket.io';
 
+var addItem = function(selector, item) {
+	var template = $(selector).find('script[type="text/x-jquery-tmpl"]');
+	template.tmpl(item).appendTo(selector);
+};
+
+var addUser = function(data, show) {
+	addItem('#users', data);
+	if (show) {
+		data.message = 'joins';
+		addMessage(data);
+	}
+};
+
+var removeUser = function(data) {
+	$('#user-' + data.id).remove();
+	data.message = 'leaves';
+	addMessage(data);
+};
+
+var addMessage = function(data) {
+	var d = new Date();
+	var win = $(window), doc = $(window.document);
+	var bottom = win.scrollTop() + win.height() == doc.height();
+	data.time = $.map([d.getHours(), d.getMinutes(), d.getSeconds()], function(s) {
+		s = String(s);
+		return (s.length == 1 ? '0' : '') + s;
+	}).join(':');
+	addItem('#messages', data);
+	if (bottom) {
+		window.scrollBy(0, 10000);
+	}
+};
+
 /* WebSocket support
  *
  */
 if (syncOn == 'socket.io') {
 	var name, started, inited = false;
 	// Create SocketIO instance
-	//	var socket = new io.Socket('192.168.1.49', {
-	//		port : 9000
-	//	});
-	//	var socket = new io.Socket('10.1.32.62', {
-	//		port : 8080
-	//	});
-	var socket = new io.Socket(location.hostname, {
-		port : 9000
+	var socket = new io.Socket('192.168.1.72', {
+		port : 8000
 	});
+//	var socket = new io.Socket('10.1.32.62', {
+//		port : 8080
+//	});
+//	var socket = new io.Socket(location.hostname, {
+//		port : 9000
+//	});
 
 	socket.connect();
 
@@ -67,15 +100,15 @@ if (syncOn == 'socket.io') {
 						});
 					});
 					break;
-				case 'join':
-					addUser(data, true);
-					break;
 				case 'init':
 					if (!inited) {
 						inited = true;
 						warehouse.warehouselamps().$.initLamps(data.lamps);
 						bindUI();
 					}
+					break;
+				case 'join':
+					addUser(data, true);
 					break;
 				case 'leave':
 					removeUser(data);
@@ -117,10 +150,11 @@ function msg(data) {
 	}
 }
 
-function write(text, from) {
+function write(data, from) {
 	var time = new Date().toLocaleTimeString();
-	//	console.log(text);
-	text = (jQuery.type(text) == 'object') ? JSON.stringify(text) : text;
-	jQuery("#nicelog .log").prepend(time + ' ' + from + ': ' + text + '<br />');
+	console.log(data);
+	var text = (jQuery.type(data) == 'object') ? JSON.stringify(data) : data;
+//	addItem('#messages', time + ':' + text);
+	jQuery("#messages").append('<li>' + time + ' ' + from + ': ' + text + '<br />');
 	//	jQuery("#log").prepend(time +' '+ from + ': ' + text +'<br />');
 }

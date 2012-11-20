@@ -17,7 +17,7 @@
 <script src="{{ STATIC_URL }}js/warehouse.js"></script>
 <script>window.warehouseID = {{ warehouse.id }};</script>
 
-		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile-1.2.0/jquery.mobile-1.2.0.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile-1.2.0.js"></script>
 
 		<script type="text/javascript" src="{{ STATIC_URL }}js/powermanager.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/warehouse_controlls.js"></script>
@@ -223,6 +223,7 @@
 						<ul>
 							<li><a href="#" data-href="lampsControls" class="ui-btn-active ui-state-persist">Controls</a></li>
 							<li><a href="#" data-href="sync">Sync<span id="syncStatus"></span></a></li>
+							<li><a href="#" data-href="usersPanel">Users</a></li>
 							<li><a href="#" data-href="nicelog">Console</a></li>
 						</ul>
 					</div><!-- /navbar -->
@@ -259,7 +260,16 @@
 						<label for="socketPort">Port:</label>
 						<input type="text" name="socketPort" id="socketPort" data-mini="true" />
 						</fieldset>
-						<fieldset id="nicelog"><div class="log"></div></fieldset>
+						<fieldset id="usersPanel">
+							<ul id="users">
+								<script type="text/x-jquery-tmpl"><li id="user-${id}">${name}</li></script>
+							</ul>
+						</fieldset>
+						<fieldset id="nicelog">
+							<ul id="messages">
+								<script type="text/x-jquery-tmpl"><li class="${action}">(${time}) ${name}: ${message}</li></script>
+							</ul>
+						</fieldset>
 					</form>
 					<p id="currentVal"></p>
 				</aside>
@@ -271,13 +281,6 @@
 				<div id="log"></div>
 			</div>
 		</div>
-
-<ul id="messages">
-    <script type="text/x-jquery-tmpl"><li class="${action}">(${time}) ${name}: ${message}</li></script>
-</ul>
-<ul id="users">
-    <script type="text/x-jquery-tmpl"><li id="user-${id}">${name}</li></script>
-</ul>
 {% endblock %}
 
 

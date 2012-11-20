@@ -1,4 +1,6 @@
 body {
+/*	font-size:16px;*/
+	font-family:sans-serif;
 }
 #warehouse {
 	display: table-cell;
@@ -20,6 +22,48 @@ body {
 #controls form fieldset:first-child {
 	display: block;
 }
+#users {}
+
+#log {
+	height:200px;
+	overflow: auto;
+}
+#nicelog {
+	font-size: 10px;
+	height:200px;
+	overflow: auto;
+}
+#messages {
+	font-size: 10px;
+}
+.lamp {
+	border-radius: 3px;
+	float: left;
+}
+.lamp p {
+	margin: 0;
+}
+.clicked {
+	background: #A8DFF4;
+}
+
+.ui-page {
+	position: relative !important;
+}
+
+.loading {
+/*	background: url("../images/loading.gif") no-repeat scroll center center rgba(221, 221, 221, 0.4);*/
+	background-color: rgba(243, 243, 243,0.60);
+	display: block;
+	height: 100%;
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+/*	text-indent: 1000px;*/
+	top: 0;
+	width: 100%;
+}
+
 #syncStatus {
 	border: 1px solid rgba(137, 137, 137, 0.7);
 	border-radius: 50% 50% 50% 50%;
@@ -51,42 +95,6 @@ body {
 	background: radial-gradient(ellipse at center, rgb(182,206,68) 0%,rgb(114,170,0) 100%); /* W3C */
 }
 
-#log {
-	height:200px;
-	overflow: auto;
-}
-#nicelog .log {
-	font-size: 10px;
-	height:200px;
-	overflow: auto;
-}
-.lamp {
-	border-radius: 3px;
-	float: left;
-}
-.lamp p {
-	margin: 0;
-}
-.clicked {
-	background: #A8DFF4;
-}
-
-.ui-page {
-	position: relative !important;
-}
-
-.loading {
-/*	background: url("../images/loading.gif") no-repeat scroll center center rgba(221, 221, 221, 0.4);*/
-	background-color: rgba(243, 243, 243,0.60);
-	display: block;
-	height: 100%;
-	left: 0;
-	overflow: hidden;
-	position: absolute;
-/*	text-indent: 1000px;*/
-	top: 0;
-	width: 100%;
-}
 /* http://www.alessioatzeni.com/blog/css3-loading-animation-loop/ */
 .ball, .ball1 {
 	display: block;

@@ -2,6 +2,7 @@ $(function() {
 
     var name, started = false;
 
+/*
     var addItem = function(selector, item) {
         var template = $(selector).find('script[type="text/x-jquery-tmpl"]');
         template.tmpl(item).appendTo(selector);
@@ -35,6 +36,7 @@ $(function() {
             window.scrollBy(0, 10000);
         }
     };
+*/
 
     $('form').submit(function() {
         var value = $('#message').val();
