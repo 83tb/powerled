@@ -77,6 +77,7 @@ def message(request, socket, context, message):
 
             # Put potential order to the queue
             text = str(message["message"])
+            q.put(text)
 
         if message["action"] == "getlamps":
 

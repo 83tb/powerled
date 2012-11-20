@@ -2,7 +2,7 @@ PIN = 9 # Pin 12 is used
 DELAY = 2 # A 2 seconds delay
 
 from pyfirmata import Arduino, util
-board = Arduino('/dev/tty.usbmodemfa141')
+board = Arduino('/dev/tty.usbmodemfd131')
 
 DURATION = 5
 STEPS = 10
@@ -21,19 +21,28 @@ from lpanel.redisq import RedisQueue
 
 q = RedisQueue('LEDY')
 
+print "Connected to REDIS"
+
 # kolejka
 import time
 
 while 1:
-    if not q.empty():
-        #time.sleep(1)
-        text = q.get(block=True)
-        if "led" in text:
-
-            led_pin = text.split()[1]
+    #if not q.empty():
+    #time.sleep(0.1)
+    text = q.get(block=True)
+    print text
+        #try:
+    print "LED COMMAND"
+    led_pin = text.split()[1]
             #print led_pin
-            dim_level = text.split()[2]
+    dim_level = text.split()[2]
             #print dim_level
             #set_dim_level(int(led_pin), float(dim_level))
-            board.digital[int(led_pin)].write(float(dim_level))
-            print q.get()
+    board.digital[int(led_pin)].write(float(dim_level))
+        
+        #print q.get()
+        #except:
+        #     pass
+        
+        
+        
