@@ -90,7 +90,7 @@ def message(request, socket, context, message):
             message["name"] = "generic"
 
 
-            message['message'] = '''{"1":{"val": 81, "temp": 215, "state": 1, "lux": 931},"2":{"val": 59, "temp": 135, "state": 1, "lux": 1006},"3":{"val": 1, "temp": 31, "state": 3, "lux": 914},"4":{"val": 30, "temp": 164, "state": 3, "lux": 962},"5":{"val": 78, "temp": 178, "state": 4, "lux": 1106},"6":{"val": 80, "temp": 300, "state": 2, "lux": 970},"7":{"val": 3, "temp": 23, "state": 4, "lux": 439},"8":{"val": 75, "temp": 21, "state": 3, "lux": 667},"9":{"val": 68, "temp": 214, "state": 2, "lux": 316},"10":{"val": 100, "temp": 155, "state": 1, "lux": 12}}'''
+            message['message'] = '''{"1":{"val": 81, "temp": 215, "state": 1, "lux": 931},"2":{"val": 59, "temp": 135, "state": 1, "lux": 1006},"3":{"val": 1, "temp": 31, "state": 3, "lux": 914},"4":{"val": 30, "temp": 164, "state": 3, "lux": 962},"5":{"val": 78, "temp": 178, "state": 4, "lux": 1106},"6":{"val": 80, "temp": 300, "state": 2, "lux": 970},"7":{"val": 3, "temp": 23, "state": 4, "lux": 439},"8":{"val": 75, "temp": 21, "state": 3, "lux": 667},"9":{"val": 68, "temp": 214, "state": 2, "lux": 316},"10":{"val": 100, "temp": 155, "state": 1, "lux": 120},"11":{"val": 22, "temp": 54, "state": 2, "lux": 1076},"12":{"val": 60, "temp": 330, "state": 2, "lux": 1118},"13":{"val": 3, "temp": 60, "state": 4, "lux": 696},"14":{"val": 48, "temp": 262, "state": 3, "lux": 145},"15":{"val": 79, "temp": 219, "state": 3, "lux": 600}}'''
 
 
 
