@@ -19,8 +19,12 @@
 	<script type="text/javascript" src="{{ STATIC_URL }}js/webfont.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tmpl.min.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile.simpledialog2.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/terminal/jquery.terminal-src.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/terminal/jquery.terminal-dev.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/terminal/touch-scroll.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/hala.js"></script>
+	<!--[if IE]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
    	{% load socketio_tags %}
 	{% socketio %}
 	<!-- <script src="{{ STATIC_URL }}js/warehouse.js"></script> -->
@@ -34,8 +38,8 @@
 		warehouse = new jQuery("#warehouse").warehouselamps({
 			'warehouseID' : window.warehouseID,
 			'user' : name,
-			'width' : 100,
-			'height' : 100,
+			'width' : 96,
+			'height' : 96,
 			'maxTemp' : 350, //{{ warehouse.maxTemp }},
 			'maxLux' : 1200, //{{ warehouse.maxLux }},
 			'debug' : false

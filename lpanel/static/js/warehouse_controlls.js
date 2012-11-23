@@ -39,7 +39,6 @@ toggleLoading = function(lampid, set) {
 }
 var showForm = function() {
 	jQuery(document).ready(function() {
-	if (!name) {
 		jQuery(document).simpledialog2({
 			mode : 'button',
 			headerText : 'Warehouse ' + window.warehouseID + ' User name',
@@ -75,9 +74,5 @@ var showForm = function() {
 				}
 			}
 		});
-	} else {
-		jQuery('#user_name').val(name);
-		terminal.set_prompt('[[;#18F018;#000]' + name + ':~$ ]');
-	}
 	});
 }

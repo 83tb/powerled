@@ -74,6 +74,8 @@ socket.on('connect', function() {
 			action : 'start',
 			name : name
 		});
+		jQuery('#user_name').val(name);
+		terminal.set_prompt('[[;#18F018;#000]' + name + ':~$ ]');
 	} else {
 		showForm();
 	}

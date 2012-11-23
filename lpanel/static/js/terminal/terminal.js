@@ -1,33 +1,38 @@
 var terminal = jQuery('#console').terminal(function(command, term) {
 	if (command.match(/led\s\d+\s\d\.\d/)) {
 		var send_data = {
-				'warehouse' : window.warehouseID,
-				'action' : 'message',
-				'message' : command,
-				'name' : name
+			'warehouse' : window.warehouseID,
+			'action' : 'message',
+			'message' : command,
+			'name' : name
 		};
 		term.echo('Sending...');
 		msg(send_data);
-	} else 	if (command.match(/led/)) {
-		term.echo('Wrong command format!'+"\n"+'Usage: led [lamp Id] [value 0-1]');
-	}else 	if (command == 'init' || command == 'reset') {
+	} else if (command.match(/led/)) {
+		term.echo('Wrong command format!' + "\n" + 'Usage: led [lamp Id] [value 0-1]');
+	} else if (command == 'init' || command == 'reset') {
 		var send_data = {
-			'warehouse':window.warehouseID,
-			'action':'getlamps',
-			'name': name
+			'warehouse' : window.warehouseID,
+			'action' : 'getlamps',
+			'name' : name
 		};
 		msg(send_data);
 		resetLamps = true;
-	}else 	if (command == 'connect' || command == 'reconnect') {
+	} else if (command == 'connect' || command == 'reconnect') {
 		term.echo('Not supported yet... working on it ;)');
-	}else
-	if (command == 'help') {
+	} else if (command == 'help') {
 		term.echo('led [lamp Id] [value 0-1]');
 	} else if (command == 'leave') {
 		window.location.href = window.location.protocol + '//' + window.location.host;
-	} else if (command == 'exit') {
+	} else if (command == 'exit' || command == 'blur') {
 		term.echo('left terminal, click to reactivate...');
 		term.focus(false);
+	} else if (command == 'globalip') {
+		term.pause();
+		$.getJSON("http://smart-ip.net/geoip-json?callback=?", function(data) {
+			term.echo(data.host);
+			term.resume();
+		})
 	} else if (command == 'play') {
 		term.pause();
 		stop = false;
@@ -53,11 +58,11 @@ var terminal = jQuery('#console').terminal(function(command, term) {
 	name : 'powerled_term',
 	prompt : 'click to activate...',
 	onFocus : function(term) {
-		term.set_prompt('[[;#18F018;#000]'+name + ':~$ ]');
+		term.set_prompt('[[;#18F018;#000]' + name + ':~$ ]');
 		term.enable();
 	},
 	onBlur : function(term) {
-		term.set_prompt('[[;#18F018;#000]'+name + ':~$ ]');
+		term.set_prompt('[[;#18F018;#000]' + name + ':~$ ]');
 		term.disable();
 	},
 	keypress : function(e) {
@@ -87,9 +92,9 @@ function play(term, delay) {
 		console.log(LINES_PER_FRAME);
 		var forCount = 0;
 		for (var i = 0; i > lines; i += LINES_PER_FRAME) {
-//			frames.push(star_wars.slice(i, i + LINES_PER_FRAME));
+			//			frames.push(star_wars.slice(i, i + LINES_PER_FRAME));
 			console.log(i);
-			if(++forCount == lines){
+			if (++forCount == lines) {
 				display();
 			}
 		}
@@ -114,5 +119,6 @@ function play(term, delay) {
 				i = 0;
 			}
 		}
+
 	});
 }
