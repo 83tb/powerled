@@ -3,9 +3,94 @@ body {
 	font-family:sans-serif;
 }
 #warehouse {
-	display: table-cell;
-/*	width: 500px;*/
+  float: left;
+  height: 540px;
+  margin: 0 10px 0 0;
+  overflow: hidden;
+  position: relative;
+  width: 540px;
 }
+#warehouse #hala,
+#warehouse .lamp {
+	position:absolute !important;
+}
+#warehouse [name="lamp_1"] {
+	top:20px;
+	left:20px;
+}
+#warehouse [name="lamp_2"] {
+	top:20px;
+	left:120px;
+}
+#warehouse [name="lamp_3"] {
+	top:20px;
+	left:220px;
+}
+#warehouse [name="lamp_4"] {
+	top:20px;
+	left:320px;
+}
+#warehouse [name="lamp_5"] {
+	top:20px;
+	left:420px;
+}
+#warehouse [name="lamp_6"] {
+	top:120px;
+	left:20px;
+}
+#warehouse [name="lamp_7"] {
+	top:120px;
+	left:120px;
+}
+#warehouse [name="lamp_8"] {
+	top:120px;
+	left:220px;
+}
+#warehouse [name="lamp_9"] {
+	top:120px;
+	left:320px;
+}
+#warehouse [name="lamp_10"] {
+	top:120px;
+	left:420px;
+}
+#warehouse [name="lamp_11"] {
+	top:220px;
+	left:20px;
+}
+#warehouse [name="lamp_12"] {
+	top:220px;
+	left:120px;
+}
+#warehouse [name="lamp_13"] {
+	top:220px;
+	left:220px;
+}
+#warehouse [name="lamp_14"] {
+	top:320px;
+	left:20px;
+}
+#warehouse [name="lamp_15"] {
+	top:320px;
+	left:120px;
+}
+#warehouse [name="lamp_16"] {
+	top:320px;
+	left:220px;
+}
+#warehouse [name="lamp_17"] {
+	top:420px;
+	left:20px;
+}
+#warehouse [name="lamp_18"] {
+	top:420px;
+	left:120px;
+}
+#warehouse [name="lamp_19"] {
+	top:420px;
+	left:220px;
+}
+
 #controls {
 	display: table-cell;
 	vertical-align: top;

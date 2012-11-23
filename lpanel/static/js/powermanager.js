@@ -11,6 +11,8 @@ var tempGrad = "data:image/jpg/png/gif;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRH
 var tempImg = new Image();
 tempImg.src = tempGrad; //'temperature.jpg';
 
+
+
 (function($) {
 	var WarehouseLamps = function(element, params) {
 		var obj = this;
@@ -91,6 +93,20 @@ tempImg.src = tempGrad; //'temperature.jpg';
 		}
 
 		this._initLamps = function(lamps_data) {
+
+var padding=10;
+var c=document.getElementById("hala");
+var ctx=c.getContext("2d");
+ctx.beginPath();
+ctx.moveTo(0+padding,0+padding);
+ctx.lineTo(520+padding,0+padding);
+ctx.lineTo(520+padding,220+padding);
+ctx.lineTo(320+padding,220+padding);
+ctx.lineTo(320+padding,520+padding);
+ctx.lineTo(0+padding,520+padding);
+ctx.lineTo(0+padding,0+padding);
+ctx.stroke();
+
 //			var lamps_data = '"1":{"val": 12, "temp": 90, "state": 3, "lux": 929},"2":{"val": 9, "temp": 29, "state": 4, "lux": 1160}';
 			var data = jQuery.parseJSON(lamps_data.replace(/\'/g, '"'));
 			console.log(lamps_data);
@@ -182,7 +198,7 @@ tempImg.src = tempGrad; //'temperature.jpg';
 
 			lampContainer.attr({
 				'id' : lampID,
-				'name' : lampID,
+				'name' : 'lamp_'+lampID,
 				'class' : 'lamp'
 			}).css({
 				'height' : settings.height + 'px',

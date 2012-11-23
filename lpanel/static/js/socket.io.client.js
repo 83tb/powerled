@@ -133,7 +133,6 @@ socket.on('message', function(data) {
 });
 // Add a disconnect listener
 socket.on('disconnect', function() {
-	alert('dupa');
 	jQuery('#syncStatus').toggleClass('on');
 	toggleLoading('', false);
 	write('The client has disconnected', 'Socket.IO '+name);
