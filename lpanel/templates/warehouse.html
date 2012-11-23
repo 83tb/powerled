@@ -186,7 +186,7 @@
 				'warehouse' : window.warehouseID,
 				'action' : 'message',
 				'message' : 'led ' + lamp + ' ' + data.val / 100,
-				'name' : 'miko'
+				'name' : name
 			};
 			msg(send_data);
 			console.log('Send: ' + lamp + ' ' + ((jQuery.type(data) == 'object') ? JSON.stringify(data) : data));

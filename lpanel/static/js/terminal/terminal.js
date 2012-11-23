@@ -1,37 +1,35 @@
 var terminal = jQuery('#console').terminal(function(command, term) {
-	switch(command) {
-		case 'help':
-			term.echo('led [lamp Id] [value 0-1]');
-			break;
-		case 'led':
-			term.echo('led [lamp Id] [value 0-1]');
-			break;
-		case 'leave':
-			window.location.href = window.location.protocol + '//' + window.location.host;
-			break;
-		case 'exit':
-			term.echo('left terminal, click to reactivate...');
-			term.focus(false);
-			break;
-		case 'play':
-			term.pause();
-			stop = false;
-			play(term);
-			break;
-		default:
-			if (command !== '') {
-				try {
-					var result = window.eval(command);
-					if (result !== undefined) {
-						term.echo(new String(result));
-					}
-				} catch(e) {
-					term.error(new String(e));
-				}
-			} else {
-				term.echo('');
+	if (command.match(/led/)) {
+		var send_data = {
+				'warehouse' : window.warehouseID,
+				'action' : 'message',
+				'message' : command,
+				'name' : name
+		};
+		term.echo('Sending...');
+		msg(send_data);
+	} else if (command == 'help') {
+		term.echo('led [lamp Id] [value 0-1]');
+	} else if (command == 'leave') {
+		window.location.href = window.location.protocol + '//' + window.location.host;
+	} else if (command == 'exit') {
+		term.echo('left terminal, click to reactivate...');
+		term.focus(false);
+	} else if (command == 'play') {
+		term.pause();
+		stop = false;
+		play(term);
+	} else if (command !== '') {
+		try {
+			var result = window.eval(command);
+			if (result !== undefined) {
+				term.echo(new String(result));
 			}
-			break;
+		} catch(e) {
+			term.error(new String(e));
+		}
+	} else {
+		term.echo('');
 	}
 }, {
 	height : 400,
