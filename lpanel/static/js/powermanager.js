@@ -107,6 +107,46 @@ ctx.lineTo(0+padding,520+padding);
 ctx.lineTo(0+padding,0+padding);
 ctx.stroke();
 
+var s = 0;
+for (var i = 0; i < 8; i++) {
+	ctx.beginPath();
+	ctx.moveTo(330+padding,240+padding+s);
+	ctx.lineTo(480+padding,240+padding+s);
+	ctx.lineTo(480+padding,260+padding+s);
+	ctx.lineTo(330+padding,260+padding+s);
+	ctx.closePath();
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.moveTo(485+padding,241+padding+s);
+	ctx.lineTo(505+padding,241+padding+s);
+	ctx.lineTo(505+padding,259+padding+s);
+	ctx.lineTo(485+padding,259+padding+s);
+	ctx.closePath();
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.moveTo(480+padding,245+padding+s);
+	ctx.lineTo(485+padding,245+padding+s);
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.moveTo(480+padding,255+padding+s);
+	ctx.lineTo(485+padding,255+padding+s);
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.moveTo(502+padding,241+padding+s);
+	ctx.lineTo(500+padding,238+padding+s);
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.moveTo(502+padding,259+padding+s);
+	ctx.lineTo(500+padding,262+padding+s);
+	ctx.stroke();
+
+	s=s+30;
+}
 //			var lamps_data = '"1":{"val": 12, "temp": 90, "state": 3, "lux": 929},"2":{"val": 9, "temp": 29, "state": 4, "lux": 1160}';
 			var data = jQuery.parseJSON(lamps_data.replace(/\'/g, '"'));
 			console.log(lamps_data);

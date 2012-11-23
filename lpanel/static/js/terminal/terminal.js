@@ -66,7 +66,7 @@ var terminal = jQuery('#console').terminal(function(command, term) {
 });
 
 function play(term, delay) {
-	jQuery.getScript('static/js/star_wars.js', function(star_wars) {
+	jQuery.getScript('static/js/star_wars.js', function(data) {
 		var frames = [];
 		var LINES_PER_FRAME = 14;
 		var DELAY = 67;
@@ -81,6 +81,8 @@ function play(term, delay) {
 
 		//star_wars is array of lines from 'js/star_wars.js'
 		var lines = star_wars.length;
+		console.log(jQuery.type(star_wars));
+		console.log(star_wars[1]);
 		console.log(lines);
 		console.log(LINES_PER_FRAME);
 		var forCount = 0;
