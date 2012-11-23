@@ -1,8 +1,10 @@
 /**
  * @author miko
  */
-
-var syncOn = false;
+/* WebSocket support
+ *
+ */
+var syncOn, name, started, inited = false;
 var syncOn = 'socket.io';
 
 var addItem = function(selector, item) {
@@ -32,114 +34,111 @@ var addMessage = function(data) {
 		s = String(s);
 		return (s.length == 1 ? '0' : '') + s;
 	}).join(':');
-	addItem('#messages', data);
+//	<li class="${action}"><span>${time} ${name}:</span>${message}</li>
+//	terminal.echo('[[;#18F018;#000]'+data.time +' '+ data.name + ': '+']' + data.message);
+	terminal.echo('[[;#18F018;#000]'+data.time +' '+ data.name + ': '+']' + data.message);
+
 	if (bottom) {
 		window.scrollBy(0, 10000);
 	}
 };
 
-/* WebSocket support
- *
- */
-if (syncOn == 'socket.io') {
-	var name, started, inited = false;
-	// Create SocketIO instance
-	var socket = new io.Socket('192.168.1.72', {
-		port : 8000
-	});
+// Create SocketIO instance
+//	var socket = new io.Socket('192.168.1.72', {
+//		port : 8000
+//	});
 //	var socket = new io.Socket('10.1.32.62', {
 //		port : 8080
 //	});
-//	var socket = new io.Socket(location.hostname, {
-//		port : 9000
-//	});
+var socket = new io.Socket(location.hostname, {
+	port : 9000
+});
 
-	socket.connect();
+socket.connect();
 
-	socket.on('connection', function() {
-		/*		jQuery.mobile.loading('show', {
-		 text : 'Connecting',
-		 textVisible : true,
-		 theme : 'c',
-		 html : ""
-		 }); */
-	});
+socket.on('connection', function() {
+	/*		jQuery.mobile.loading('show', {
+	 text : 'Connecting',
+	 textVisible : true,
+	 theme : 'c',
+	 html : ""
+	 }); */
+});
 
-	// Add a connect listener
-	socket.on('connect', function() {
-		started = true;
-		socket.subscribe('warehouse-' + window.warehouseID);
-		if (name) {
-			socket.send({
-				warehouse : window.warehouseID,
-				action : 'start',
-				name : name
-			});
-		} else {
-			showForm();
-		}
-		jQuery('#syncStatus').toggleClass('on');
-		write('Client has connected to the server!', 'Socket.IO');
-	});
+// Add a connect listener
+socket.on('connect', function() {
+	socket.subscribe('warehouse-' + window.warehouseID);
+	if (name) {
+		socket.send({
+			warehouse : window.warehouseID,
+			action : 'start',
+			name : name
+		});
+	} else {
+		showForm();
+	}
+	jQuery('#syncStatus').toggleClass('on');
+	write('Client has connected to the server!', 'Socket.IO');
+});
 
-	// Add a message listener
-	socket.on('message', function(data) {
-		write(data, 'Socket.IO from server');
-		if (jQuery.type(data.action) != 'undefined') {
-			switch(data.action) {
-				case 'in-use':
-					alert('Name is in use, please choose another');
-					break;
-				case 'started':
-					started = true;
-					$('#submit').val('Send');
-					$('#users').slideDown();
-					$.each(data.users, function(i, name) {
-						addUser({
-							name : name
-						});
+// Add a message listener
+socket.on('message', function(data) {
+	write(data, 'From server');
+	if (jQuery.type(data.action) != 'undefined') {
+		switch(data.action) {
+			case 'started':
+				started = true;
+				$('#submit').val('Send');
+				$('#users').slideDown();
+				$.each(data.users, function(i, name) {
+					addUser({
+						name : name
 					});
-					break;
-				case 'getlamps':
-					if (!inited) {
-						inited = true;
-						warehouse.warehouselamps().$.initLamps(data.message);
-						bindUI();
+				});
+				break;
+			case 'getlamps':
+				if (!inited) {
+					inited = true;
+					warehouse.warehouselamps().$.initLamps(data.message);
+					bindUI();
+				}
+				break;
+			case 'message':
+				var lamp_ = data.message.split(' ');
+				var lamp = {
+					'lamp' : lamp_[1],
+					'lamp_data' : {
+						'val' : lamp_[2] * 100
 					}
-					break;
-				case 'join':
-					addUser(data, true);
-					break;
-				case 'leave':
-					removeUser(data);
-					break;
-				case 'message':
-					var lamp_ = data.message.split(' ');
-					var lamp = {
-						'LampID' : lamp_[1],
-						'lamp_data' : {
-							'val' : lamp_[2] * 100
-						}
-					}
-					warehouse.warehouselamps().$.updateStatus(lamp.LampID, lamp.lamp_data);
-					toggleLoading(lamp.LampID, false);
-					write(data, 'Lamp updated');
-					break;
-				case 'system':
-					data['name'] = 'SYSTEM';
-					addMessage(data);
-					break;
-			}
+				}
+				warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
+				toggleLoading(lamp.lamp, false);
+				write(data, 'Lamp updated');
+				break;
+			case 'system':
+				data['name'] = 'SYSTEM';
+				addMessage(data);
+				break;
+			case 'join':
+				addUser(data, true);
+				break;
+			case 'leave':
+				removeUser(data);
+				break;
+			case 'in-use':
+//				alert('Name is in use, please choose another');
+				break;
 		}
-	});
-	// Add a disconnect listener
-	socket.on('disconnect', function() {
-		//		switchSync.val('off').slider('refresh');
-		jQuery('#syncStatus').toggleClass('on');
-		//		toggleLoading(lamp.LampID, false);
-		write('The client has disconnected', 'Socket.IO');
-	});
-}
+	}
+});
+// Add a disconnect listener
+socket.on('disconnect', function() {
+	alert('dupa');
+	jQuery('#syncStatus').toggleClass('on');
+	toggleLoading('', false);
+	write('The client has disconnected', 'Socket.IO '+name);
+});
+
 function msg(data) {
 	//	if (syncOn == 'socket.io' && started) {
 	if (syncOn == 'socket.io') {
@@ -151,25 +150,16 @@ function msg(data) {
 }
 
 function write(data, from) {
-	var time = new Date().toLocaleTimeString();
-	var text = (jQuery.type(data) == 'object') ? JSON.stringify(data) : data;
-//	addItem('#messages', time + ':' + text);
-	jQuery("#messages").append('<li>' + time + ' ' + from + ': ' + text + '<br />');
-	console.log(time + ' ' + from + ': ' + text);
+	var log_data = new Object();
+	console.log(from + ' ' + JSON.stringify(data));
+	if(jQuery.type(data) == 'object'){
+		var text = JSON.stringify(data);
+		log_data.action = data.action;
+	}else{
+		var text = data;
+		log_data.action = 'Socket.IO';
+	}
+	log_data.message = text;
+	log_data.name = from + ((data.name)? ' '+data.name : '');
+	addMessage(log_data);
 }
-
-    $('#console').submit(function() {
-        var value = $('#message').val();
-        if (value) {
-            if (!started) {
-                name = value;
-                data = {warehouse: window.warehouseID, action: 'start', name: name};
-            } else {
-                data = {warehouse: window.warehouseID, action: 'message', message: value};
-            }
-//            socket.send(data);
-            msg(data);
-        }
-        $('#message').val('').focus();
-        return false;
-    });

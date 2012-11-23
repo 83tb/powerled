@@ -28,14 +28,18 @@ body {
 	height:200px;
 	overflow: auto;
 }
-#nicelog {
-	font-size: 10px;
-	height:200px;
-	overflow: auto;
+#console {
+	font: 10px sans-serif,'Roboto';
+	background: #000000;
+	border: none;
+	box-shadow: none;
+	color: #AAAAAA;
+	display: block;
+	margin: 0;
+	padding: 2px 4px;
+	text-shadow: none;
 }
-#messages {
-	font-size: 10px;
-}
+
 .lamp {
 	border-radius: 3px;
 	float: left;

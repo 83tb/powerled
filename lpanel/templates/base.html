@@ -1,31 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <style>
-
-        #myCanvas {
-            border: 1px solid #9C9898;
-        }
-    </style>
-    <meta charset="utf-8">
-    <title>{% block title %}Chat{% endblock %}</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/warehouse.css">
-    {% block extra_css %}{% endblock %}
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script>
-        var showForm = function() {
-            $('form').slideDown(function() {
-                $('form input[type="text"]').focus();
-            });
-        };
-    </script>
-    {% block extra_js %}{% endblock %}
-
+	<meta charset="utf-8">
+	<title>{% block title %}Chat{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/warehouse.css">
+	{% block extra_css %}{% endblock %}
+	<script type="text/javascript" src="{{ STATIC_URL }}/js/jquery.min.js"></script>
+	<script type="text/javascript">
+		var showForm = function() {
+			$('form').slideDown(function() {
+				$('form input[type="text"]').focus();
+			});
+		};
+	</script>
+	{% block extra_js %}{% endblock %}
 </head>
 <body class="holo js holo-light holo-accent-blue">
-	<div id="main" data-role="page">{% block main %}{% endblock %}</div>
-
-
-    {% block form %}{% endblock %}
+	<div id="main" data-role="page">
+		{% block main %}{% endblock %}
+	</div>
+	{% block form %}{% endblock %}
 </body>

@@ -342,7 +342,7 @@ select.holo-spinner option { height: 32px; border-top: 1px #444 solid; }
 	background-color: #EEE;
 }
 .holo-light, .holo-light a, .holo-light input, .holo-light button {
-	color: #222;
+/*	color: #222;*/
 }
 .holo-light .holo-field input:disabled { color:#BBB; }
 

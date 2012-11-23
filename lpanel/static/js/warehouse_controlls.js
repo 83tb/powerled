@@ -31,9 +31,10 @@ jQuery.fn.single_double_click = function(single_click_callback, double_click_cal
 }
 
 toggleLoading = function(lampid, set) {
-	if (!(jQuery('#' + lampid + ' .loading').length > 0) && set == true) {
-		jQuery('#' + lampid).append('<span class="loading"><span class="ball"><span class="ball1"></span></span></span>');
+	var lampid = (lampid)? '#' + lampid : '.lamp';
+	if (!(jQuery(lampid + ' .loading').length > 0) && set == true) {
+		jQuery(lampid).append('<span class="loading"><span class="ball"><span class="ball1"></span></span></span>');
 	} else if (set == false) {
-		jQuery('#' + lampid + ' .loading').remove();
+		jQuery(lampid + ' .loading').remove();
 	}
 }
