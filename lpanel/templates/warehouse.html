@@ -27,50 +27,7 @@
 	<script type="text/javascript">
 	window.warehouseID = {{ warehouse.id }};
 	jQuery(document).bind("mobileinit", function() {
-//		$.mobile.touchOverflowEnabled = true;
-	});
-//	jQuery(document).bind('pageinit', function() {
-	jQuery(document).ready(function() {
-		if(!name){
-		jQuery(document).simpledialog2({
-			mode: 'button',
-			headerText: 'Warehouse '+window.warehouseID+' User name',
-			headerClose: false,
-			forceInput: true,
-			buttonPrompt: 'Please enter Your name',
-			buttonInput:true,
-//			buttonInputDefault:'user name',
-			buttons: {
-				'Enter' : {
-					click: function(){
-						name = jQuery.mobile.sdLastInput;
-						if(name){
-							data = {
-								warehouse : window.warehouseID,
-								action : 'start',
-								name : name
-							};
-							jQuery('#user_name').val(name);
-							msg(data);
-							terminal.set_prompt(name + ':~$ ');
-						}else{
-							alert('User name is required!');
-							return false;
-						}
-					}
-				},
-				'Leave' : {
-					click: function(){
-						window.location.href = window.location.protocol + '//' + window.location.host;
-						return false;
-					}
-				}
-			}
-		});
-		}else{
-			jQuery('#user_name').val(name);
-			terminal.set_prompt(name + ':~$ ');
-		}
+		$.mobile.touchOverflowEnabled = true;
 	});
 	jQuery(document).ready(function() {
 		warehouse = new jQuery("#warehouse").warehouselamps({
@@ -165,10 +122,13 @@
 				LampID.lamp_data.state = state;
 				setLamp(LampID, LampID.lamp_data, false);
 			}
-			sliderBrightness.val(LampID.lamp_data.val).slider('refresh').slider('enable');
-			sliderLux.val(LampID.lamp_data.lux).slider('refresh').slider('enable');
+			sliderBrightness.val(LampID.lamp_data.val).slider('refresh');
+			sliderBrightness.slider('enable');
+			sliderLux.val(LampID.lamp_data.lux).slider('refresh');
+//			sliderLux.slider('enable');
 			onOffState = (LampID.lamp_data.val == 0) ? 4 : LampID.lamp_data.state;
-			switchOnOff.val(onOffState).slider('refresh').slider('enable');
+			switchOnOff.val(onOffState).slider('refresh');
+//			switchOnOff.slider('enable');
 		}
 		$('#leave, #masterButton').click(function(e) {
 			e.preventDefault();

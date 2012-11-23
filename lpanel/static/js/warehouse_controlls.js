@@ -29,12 +29,55 @@ jQuery.fn.single_double_click = function(single_click_callback, double_click_cal
 		});
 	});
 }
-
 toggleLoading = function(lampid, set) {
-	var lampid = (lampid)? '#' + lampid : '.lamp';
+	var lampid = (lampid) ? '#' + lampid : '.lamp';
 	if (!(jQuery(lampid + ' .loading').length > 0) && set == true) {
 		jQuery(lampid).append('<span class="loading"><span class="ball"><span class="ball1"></span></span></span>');
 	} else if (set == false) {
 		jQuery(lampid + ' .loading').remove();
 	}
+}
+var showForm = function() {
+	jQuery(document).ready(function() {
+	if (!name) {
+		jQuery(document).simpledialog2({
+			mode : 'button',
+			headerText : 'Warehouse ' + window.warehouseID + ' User name',
+			headerClose : false,
+			forceInput : true,
+			buttonPrompt : 'Please enter Your name',
+			buttonInput : true,
+//			buttonInputDefault:'user name',
+			buttons : {
+				'Enter' : {
+					click : function() {
+						name = jQuery.mobile.sdLastInput;
+						if (name) {
+							data = {
+								warehouse : window.warehouseID,
+								action : 'start',
+								name : name
+							};
+							jQuery('#user_name').val(name);
+							msg(data);
+							terminal.set_prompt('[[;#18F018;#000]' + name + ':~$ ]');
+						} else {
+							alert('User name is required!');
+							return false;
+						}
+					}
+				},
+				'Leave' : {
+					click : function() {
+						window.location.href = window.location.protocol + '//' + window.location.host;
+						return false;
+					}
+				}
+			}
+		});
+	} else {
+		jQuery('#user_name').val(name);
+		terminal.set_prompt('[[;#18F018;#000]' + name + ':~$ ]');
+	}
+	});
 }

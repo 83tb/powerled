@@ -4,7 +4,7 @@
 /* WebSocket support
  *
  */
-var syncOn, name, started, inited = false;
+var syncOn, name, started, inited, resetLamps = false;
 var syncOn = 'socket.io';
 
 var addItem = function(selector, item) {
@@ -97,8 +97,9 @@ socket.on('message', function(data) {
 				});
 				break;
 			case 'getlamps':
-				if (!inited) {
+				if (!inited || resetLamps) {
 					inited = true;
+					resetLamps = false;
 					warehouse.warehouselamps().$.initLamps(data.message);
 					bindUI();
 				}
