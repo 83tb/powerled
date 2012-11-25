@@ -3,200 +3,225 @@
 {% block title %}Powerled - Hala {{ warehouse }}{% endblock %}
 
 {% block extra_css %}
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.mobile-1.2.0.min.css" />
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/holo/holo.css" />
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/holo/holo-light.css" />
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheet.css" />
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.mobile.simpledialog.min.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.terminal.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.mobile-1.2.0.min.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/holo/holo.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/holo/holo-light.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheet.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.mobile.simpledialog.min.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.terminal.css" />
+<style>
+#warehouse [name="lamp_1"] {top:20px;left:20px;}
+#warehouse [name="lamp_2"] {top:20px;left:120px;}
+#warehouse [name="lamp_3"] {top:20px;left:220px;}
+#warehouse [name="lamp_4"] {top:20px;left:320px;}
+#warehouse [name="lamp_5"] {top:20px;left:420px;}
+#warehouse [name="lamp_6"] {top:120px;left:20px;}
+#warehouse [name="lamp_7"] {top:120px;left:120px;}
+#warehouse [name="lamp_8"] {top:120px;left:220px;}
+#warehouse [name="lamp_9"] {top:120px;left:320px;}
+#warehouse [name="lamp_10"] {top:120px;left:420px;}
+#warehouse [name="lamp_11"] {top:220px;left:20px;}
+#warehouse [name="lamp_12"] {top:220px;left:120px;}
+#warehouse [name="lamp_13"] {top:220px;left:220px;}
+#warehouse [name="lamp_14"] {top:320px;left:20px;}
+#warehouse [name="lamp_15"] {top:320px;left:120px;}
+#warehouse [name="lamp_16"] {top:320px;left:220px;}
+#warehouse [name="lamp_17"] {top:420px;left:20px;}
+#warehouse [name="lamp_18"] {top:420px;left:120px;}
+#warehouse [name="lamp_19"] {top:420px;left:220px;}
+</style>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/android.holo/android-theme.css" />
 {% endblock %}
 
 {% block extra_js %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mousewheel-min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile-1.2.0.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/powermanager.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/warehouse_controlls.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/webfont.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tmpl.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile.simpledialog2.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/terminal/jquery.terminal-dev.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/terminal/touch-scroll.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/hala.js"></script>
-	<!--[if IE]>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-   	{% load socketio_tags %}
-	{% socketio %}
-	<!-- <script src="{{ STATIC_URL }}js/warehouse.js"></script> -->
-	<script type="text/javascript" src="{{ STATIC_URL }}js/socket.io.client.js"></script>
-	<script type="text/javascript">
-	window.warehouseID = {{ warehouse.id }};
-	jQuery(document).bind("mobileinit", function() {
-		$.mobile.touchOverflowEnabled = true;
+<script type="text/javascript">
+var DEBUG_ANDROID_THEME=true
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile.android-theme.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mousewheel-min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile-1.2.0.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/powermanager.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/warehouse_controlls.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/webfont.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mobile.simpledialog2.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/terminal/jquery.terminal-dev.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/terminal/touch-scroll.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/hala.js"></script>
+<!--[if IE]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+{% load socketio_tags %}
+{% socketio %}
+<!-- <script src="{{ STATIC_URL }}js/warehouse.js"></script> -->
+<script type="text/javascript" src="{{ STATIC_URL }}js/socket.io.client.js"></script>
+<script type="text/javascript">
+window.warehouseID = {{ warehouse.id }};
+jQuery(document).bind("mobileinit", function() {
+	$.mobile.touchOverflowEnabled = true;
+});
+jQuery(document).ready(function() {
+	warehouse = new jQuery("#warehouse").warehouselamps({
+		'warehouseID' : window.warehouseID,
+		'user' : name,
+		'width' : 96,
+		'height' : 96,
+		'maxTemp' : 350, //{{ warehouse.maxTemp }},
+		'maxLux' : 1200, //{{ warehouse.maxLux }},
+		'debug' : false
 	});
-	jQuery(document).ready(function() {
-		warehouse = new jQuery("#warehouse").warehouselamps({
-			'warehouseID' : window.warehouseID,
-			'user' : name,
-			'width' : 96,
-			'height' : 96,
-			'maxTemp' : 350, //{{ warehouse.maxTemp }},
-			'maxLux' : 1200, //{{ warehouse.maxLux }},
-			'debug' : false
-		});
-		var sliderBrightness = jQuery('#lampBrightness').slider({
-			disabled : true
-		});
-		sliderBrightness.unbind();
-		sliderBrightness.bind('slidestop change', function(event, ui) {
-			var current = jQuery(this).attr('rel');
-			var val = jQuery(this).val();
-			if (val == 0) {
-				switchOnOff.val(4).slider('refresh');
-			}
-			jQuery.each(jQuery('.clicked'), function() {
-				var lamp = $(this).attr('id');
-				var data = '{"' + String(current) + '":' + parseFloat(val) + '}';
-				var update = (event.type == 'slidestop') ? true : false;
-				setLamp(lamp, data, update);
-			});
-		});
-
-		var sliderLux = jQuery('#lampLux').slider({
-			disabled : true
-		});
-		sliderLux.unbind();
-		sliderLux.bind('slidestop change', function(event, ui) {
-			var current = jQuery(this).attr('rel');
-			var val = jQuery(this).val();
-			jQuery.each(jQuery('.clicked'), function() {
-				var lamp = $(this).attr('id');
-				var data = '{"' + String(current) + '":' + parseFloat(val) + '}';
-				var update = (event.type == 'slidestop') ? true : false;
-				setLamp(lamp, data, update);
-			});
-		});
-
-		var switchSync = jQuery('#syncSwitch').slider('disable');
-
-		var switchOnOff = jQuery('#lampStatus').slider('disable');
-		switchOnOff.change(function() {
-			jQuery.each(jQuery('.clicked'), function() {
-				var LampID = $(this).attr('id');
-				setLamp(LampID, '{"state" : ' + parseFloat(switchOnOff.val()) + '}', true);
-			});
-		});
-
-/*		jQuery('#console').submit(function() {
-			var value = jQuery('#message').val();
-			if (value) {
-				if (!started) {
-					name = value;
-					data = {
-						warehouse : window.warehouseID,
-						action : 'start',
-						name : name
-					};
-				} else {
-					data = {
-						warehouse : window.warehouseID,
-						action : 'message',
-						message : value
-					};
-				}
-				msg(data);
-			}
-			jQuery('#message').val('').focus();
-			return false;
-		});*/
-
-		selectLamp = function(itemID, dblclick) {
-			warehouse.warehouselamps().$.getLamp(itemID)
-			console.log(warehouse.warehouselamps().$.getLamp(itemID));
-			if (dblclick) {
-				switch(LampID.lamp_data.state) {
-					case 1:
-						var state = 4;
-						break;
-					case 4:
-						var state = 1;
-						break;
-					default:
-						var state = LampID.lamp_data.state;
-				}
-				LampID.lamp_data.state = state;
-				setLamp(LampID, LampID.lamp_data, false);
-			}
-			sliderBrightness.val(LampID.lamp_data.val).slider('refresh');
-			sliderBrightness.slider('enable');
-			sliderLux.val(LampID.lamp_data.lux).slider('refresh');
-//			sliderLux.slider('enable');
-			onOffState = (LampID.lamp_data.val == 0) ? 4 : LampID.lamp_data.state;
-			switchOnOff.val(onOffState).slider('refresh');
-//			switchOnOff.slider('enable');
+	var sliderBrightness = jQuery('#lampBrightness').slider({
+		disabled : true
+	});
+	sliderBrightness.unbind();
+	sliderBrightness.bind('slidestop change', function(event, ui) {
+		var current = jQuery(this).attr('rel');
+		var val = jQuery(this).val();
+		if (val == 0) {
+			switchOnOff.val(4).slider('refresh');
 		}
-		$('#leave, #masterButton').click(function(e) {
-			e.preventDefault();
-			window.location.href = window.location.protocol + '//' + window.location.host;
+		jQuery.each(jQuery('.clicked'), function() {
+			var lamp = $(this).attr('id');
+			var data = '{"' + String(current) + '":' + parseFloat(val) + '}';
+			var update = (event.type == 'slidestop') ? true : false;
+			setLamp(lamp, data, update);
 		});
-
 	});
 
-	setLamp = function(lamp, lamp_data, send) {
-		var data = (jQuery.type(lamp_data) == 'object') ? lamp_data : jQuery.parseJSON(lamp_data);
-		warehouse.warehouselamps().$.updateStatus(lamp, data);
-		if (send) {
-			toggleLoading(lamp, true);
-			var send_data = {
-				'warehouse' : window.warehouseID,
-				'action' : 'message',
-				'message' : 'led ' + lamp + ' ' + data.val / 100,
-				'name' : name
-			};
-			msg(send_data);
-			console.log('Send: ' + lamp + ' ' + ((jQuery.type(data) == 'object') ? JSON.stringify(data) : data));
-		}
-	}
-	bindUI = function() {
-		jQuery('.lamp').unbind().single_double_click(function(event) {
-			event.preventDefault();
-			if (event.shiftKey) {
-				//				selectLamp(jQuery(this).attr('id'), false);
-				jQuery(this).toggleClass('clicked');
-				console.log(this);
+	var sliderLux = jQuery('#lampLux').slider({
+		disabled : true
+	});
+	sliderLux.unbind();
+	sliderLux.bind('slidestop change', function(event, ui) {
+		var current = jQuery(this).attr('rel');
+		var val = jQuery(this).val();
+		jQuery.each(jQuery('.clicked'), function() {
+			var lamp = $(this).attr('id');
+			var data = '{"' + String(current) + '":' + parseFloat(val) + '}';
+			var update = (event.type == 'slidestop') ? true : false;
+			setLamp(lamp, data, update);
+		});
+	});
+
+	var switchSync = jQuery('#syncSwitch').slider('disable');
+
+	var switchOnOff = jQuery('#lampStatus').slider('disable');
+	switchOnOff.change(function() {
+		jQuery.each(jQuery('.clicked'), function() {
+			var LampID = $(this).attr('id');
+			setLamp(LampID, '{"state" : ' + parseFloat(switchOnOff.val()) + '}', true);
+		});
+	});
+
+/*	jQuery('#console').submit(function() {
+		var value = jQuery('#message').val();
+		if (value) {
+			if (!started) {
+				name = value;
+				data = {
+					warehouse : window.warehouseID,
+					action : 'start',
+					name : name
+				};
 			} else {
-				$('.lamp').removeClass('clicked');
-				selectLamp(jQuery(this).attr('id'), false);
-				jQuery(this).addClass('clicked');
+				data = {
+					warehouse : window.warehouseID,
+					action : 'message',
+					message : value
+				};
 			}
-		}, function(event) {
-			event.preventDefault();
-			$('.lamp').removeClass('clicked');
-			selectLamp(jQuery(this).attr('id'), true);
-			jQuery(this).addClass('clicked');
-		}).bind('taphold', function(event) {
-			event.preventDefault();
-			//			selectLamp(jQuery(this).attr('id'), false);
-			jQuery(this).toggleClass('clicked');
-			window.navigator.vibrate(100);
-			console.log(this);
-		});
+			msg(data);
+		}
+		jQuery('#message').val('').focus();
+		return false;
+	});*/
+
+	selectLamp = function(itemID, dblclick) {
+		warehouse.warehouselamps().$.getLamp(itemID)
+		console.log(warehouse.warehouselamps().$.getLamp(itemID));
+		if (dblclick) {
+			switch(LampID.lamp_data.state) {
+				case 1:
+					var state = 4;
+					break;
+				case 4:
+					var state = 1;
+					break;
+				default:
+					var state = LampID.lamp_data.state;
+			}
+			LampID.lamp_data.state = state;
+			setLamp(LampID, LampID.lamp_data, false);
+		}
+		sliderBrightness.val(LampID.lamp_data.val).slider('refresh');
+		sliderBrightness.slider('enable');
+		sliderLux.val(LampID.lamp_data.lux).slider('refresh');
+//		sliderLux.slider('enable');
+		onOffState = (LampID.lamp_data.val == 0) ? 4 : LampID.lamp_data.state;
+		switchOnOff.val(onOffState).slider('refresh');
+//		switchOnOff.slider('enable');
 	}
 
-	WebFont.load({
-		custom : {
-			families : ['RobotoRegular', 'RobotoCondensed', 'RobotoBold', 'RobotoBoldCondensed'],
-			urls : ['{{ STATIC_URL }}css/fonts/stylesheet.css'],
-		},
-		active : function() {
-			var send_data = {
-				'warehouse' : window.warehouseID,
-				'action' : 'getlamps'
-			};
-			msg(send_data);
-		},
-	}); 
-	</script>
+	$('#leave, #masterButton').click(function(e) {
+		e.preventDefault();
+		window.location.href = window.location.protocol + '//' + window.location.host;
+	});
+
+});
+
+setLamp = function(lamp, lamp_data, send) {
+	var data = (jQuery.type(lamp_data) == 'object') ? lamp_data : jQuery.parseJSON(lamp_data);
+	warehouse.warehouselamps().$.updateStatus(lamp, data);
+	if (send) {
+		toggleLoading(lamp, true);
+		var send_data = {
+			'warehouse' : window.warehouseID,
+			'action' : 'message',
+			'message' : 'led ' + lamp + ' ' + data.val / 100,
+			'name' : name
+		};
+		msg(send_data);
+		console.log('Send: ' + lamp + ' ' + ((jQuery.type(data) == 'object') ? JSON.stringify(data) : data));
+	}
+}
+bindUI = function() {
+	jQuery('.lamp').unbind().single_double_click(function(event) {
+		event.preventDefault();
+		if (event.shiftKey) {
+			jQuery(this).toggleClass('clicked');
+			console.log(this);
+		} else {
+			$('.lamp').removeClass('clicked');
+			selectLamp(jQuery(this).attr('id'), false);
+			jQuery(this).addClass('clicked');
+		}
+	}, function(event) {
+		event.preventDefault();
+		$('.lamp').removeClass('clicked');
+		selectLamp(jQuery(this).attr('id'), true);
+		jQuery(this).addClass('clicked');
+	}).bind('taphold', function(event) {
+		event.preventDefault();
+		jQuery(this).toggleClass('clicked');
+		window.navigator.vibrate(100);
+		console.log(this);
+	});
+}
+
+WebFont.load({
+	custom : {
+		families : ['RobotoRegular', 'RobotoCondensed', 'RobotoBold', 'RobotoBoldCondensed'],
+		urls : ['{{ STATIC_URL }}css/fonts/stylesheet.css'],
+	},
+	active : function() {
+		var send_data = {
+			'warehouse' : window.warehouseID,
+			'action' : 'getlamps'
+		};
+		msg(send_data);
+	},
+}); 
+</script>
 {% endblock %}
 
 {% block main %}
@@ -232,8 +257,8 @@
 	</header>
 	<div class="holo-content ui-content" data-role="content" role="main">
 		<section id="warehouse">
-<canvas id="hala" width="540" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
-</section>
+			<canvas id="hala" width="540" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
+		</section>
 		<aside id="controls">
 			<script>
 				$(document).delegate('.ui-navbar ul li > a', 'click', function() {
@@ -307,13 +332,11 @@
 			</form>
 			<p id="currentVal"></p>
 		</aside>
-		<footer>
-			<p>
-				&copy; Copyright by Diznet Studio & Sel-Telecom
-			</p>
-		</footer>
-		<div id="log"></div>
 	</div>
+	<footer id="footer" data-role="footer">
+		<p>&copy; Copyright by Diznet Studio & Sel-Telecom</p>
+	</footer>
+	<div id="log"></div>
 </div>
 {% endblock %}
 

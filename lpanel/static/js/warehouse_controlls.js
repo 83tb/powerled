@@ -40,6 +40,10 @@ toggleLoading = function(lampid, set) {
 var showForm = function() {
 	jQuery(document).ready(function() {
 		jQuery(document).simpledialog2({
+			themeDialog:'c',
+			themeHeader: 'c',
+			themeInput:'c',
+			themeButtonDefault:'c',
 			mode : 'button',
 			headerText : 'Warehouse ' + window.warehouseID + ' User name',
 			headerClose : false,
@@ -74,5 +78,6 @@ var showForm = function() {
 				}
 			}
 		});
+		jQuery('.ui-simpledialog-input').focus();
 	});
 }
