@@ -34,9 +34,9 @@ var addMessage = function(data) {
 		s = String(s);
 		return (s.length == 1 ? '0' : '') + s;
 	}).join(':');
-//	<li class="${action}"><span>${time} ${name}:</span>${message}</li>
-//	terminal.echo('[[;#18F018;#000]'+data.time +' '+ data.name + ': '+']' + data.message);
-	terminal.echo('[[;#18F018;#000]'+data.time +' '+ data.name + ': '+']' + data.message);
+	//	<li class="${action}"><span>${time} ${name}:</span>${message}</li>
+	//	terminal.echo('[[;#18F018;#000]'+data.time +' '+ data.name + ': '+']' + data.message);
+	terminal.echo('[[;#18F018;#000]' + data.time + ' ' + data.name + ': ' + ']' + data.message);
 
 	if (bottom) {
 		window.scrollBy(0, 10000);
@@ -44,10 +44,12 @@ var addMessage = function(data) {
 };
 
 // Create SocketIO instance
+alert(location.hostname);
+var host = (location.hostname == '192.168.1.72')? location.hostname : '192.168.1.72';
 //var socket = new io.Socket(location.hostname, {
 //	port : 9000
 //});
-var socket = new io.Socket('192.168.1.72', {
+var socket = new io.Socket(host, {
 	port : 9000
 });
 
@@ -104,26 +106,46 @@ socket.on('message', function(data) {
 				}
 				break;
 			case 'message':
-				// add ,"alarms":"led 9 alarm_state 1"
-				var lamp_ = data.message.split(' ');
-				console.log(lamp_);
-				var lamp = new Object();
-				lamp.lamp = lamp_[1];
-				switch (lamp_[2]){
-					case 'set_brightness':
-						lamp.lamp_data = {
-							'val' : lamp_[3] * 100
-						};
-						break;
-					case 'set_lux':
-						lamp.lamp_data = {
-							'lux' : lamp_[3]
-						};
-						break;
+				if (data.message) {
+					var lamp_ = data.message.split(' ');
+					console.log(lamp_);
+					var lamp = new Object();
+					lamp.lamp = lamp_[1];
+					switch (lamp_[2]) {
+						case 'set_brightness':
+							lamp.lamp_data = {
+								'val' : lamp_[3] * 100
+							};
+							break;
+						case 'set_lux':
+							lamp.lamp_data = {
+								'lux' : lamp_[3]
+							};
+							break;
+					}
+					warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
+					toggleLoading(lamp.lamp, false);
+					write(data, 'Lamp updated');
 				}
-				warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
-				toggleLoading(lamp.lamp, false);
-				write(data, 'Lamp updated');
+				if (data.alarms) {
+					var lamp_ = data.alarms.split(' ');
+					console.log(lamp_);
+					var lamp = new Object();
+					lamp.lamp = lamp_[1];
+					switch (lamp_[2]) {
+						case 'alarm_state':
+							lamp.lamp_data = {
+								"state" : lamp_[3]
+							};
+							break;
+					}
+					console.log(lamp);
+					warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
+					toggleLoading(lamp.lamp, false);
+					write(data, 'Lamp updated');
+				}
+				// add ,"alarms":"led 9 alarm_state 1"
+
 				break;
 			case 'system':
 				data['name'] = 'SYSTEM';
@@ -136,7 +158,7 @@ socket.on('message', function(data) {
 				removeUser(data);
 				break;
 			case 'in-use':
-//				alert('Name is in use, please choose another');
+				//				alert('Name is in use, please choose another');
 				break;
 		}
 	}
@@ -145,7 +167,7 @@ socket.on('message', function(data) {
 socket.on('disconnect', function() {
 	jQuery('#syncStatus').toggleClass('on');
 	toggleLoading('', false);
-	write('The client has disconnected', 'Socket.IO '+name);
+	write('The client has disconnected', 'Socket.IO ' + name);
 });
 
 function msg(data) {
@@ -161,14 +183,14 @@ function msg(data) {
 function write(data, from) {
 	var log_data = new Object();
 	console.log(from + ' ' + JSON.stringify(data));
-	if(jQuery.type(data) == 'object'){
+	if (jQuery.type(data) == 'object') {
 		var text = JSON.stringify(data);
 		log_data.action = data.action;
-	}else{
+	} else {
 		var text = data;
 		log_data.action = 'Socket.IO';
 	}
 	log_data.message = text;
-	log_data.name = from + ((data.name)? ' '+data.name : '');
+	log_data.name = from + ((data.name) ? ' ' + data.name : '');
 	addMessage(log_data);
 }

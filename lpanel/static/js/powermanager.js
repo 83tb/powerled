@@ -237,8 +237,8 @@ jQuery('#warehouse').css({
 			ctx.clearRect(0, 0, settings.width, settings.height);
 			var tempPRC = obj.lamp_data.temp/settings.maxTemp;
 			var luxPRC = obj.lamp_data.lux/settings.maxLux;
-			obj.procentCircle(parseInt(obj.lamp_data.val)/100, tempPRC, obj.lamp_data.state, luxPRC);
-			obj.setText(obj.lamp_data.val, obj.lamp_data.temp, obj.lamp_data.state, obj.lamp_data.lux);
+			obj.procentCircle(parseInt(obj.lamp_data.val)/100, tempPRC, parseInt(obj.lamp_data.state), luxPRC);
+			obj.setText(obj.lamp_data.val, obj.lamp_data.temp, parseInt(obj.lamp_data.state), obj.lamp_data.lux);
 		}
 
 		this.drowLamp = function(lampID) {
