@@ -44,13 +44,10 @@ var addMessage = function(data) {
 };
 
 // Create SocketIO instance
-//	var socket = new io.Socket('192.168.1.72', {
-//		port : 8000
-//	});
-//	var socket = new io.Socket('10.1.32.62', {
-//		port : 8080
-//	});
-var socket = new io.Socket(location.hostname, {
+//var socket = new io.Socket(location.hostname, {
+//	port : 9000
+//});
+var socket = new io.Socket('192.168.1.72', {
 	port : 9000
 });
 
@@ -107,13 +104,46 @@ socket.on('message', function(data) {
 				}
 				break;
 			case 'message':
+				// add ,"alarms":"led 9 alarm_state 1"
 				var lamp_ = data.message.split(' ');
-				var lamp = {
-					'lamp' : lamp_[1],
-					'lamp_data' : {
-						'val' : lamp_[2] * 100
-					}
+				console.log(lamp_);
+				var lamp = new Object();
+				lamp.lamp = lamp_[1];
+				switch (lamp_[2]){
+					case 'set_brightness':
+						lamp.lamp_data = {
+						'val' : lamp_[3] * 100
+						};
+						break;
+					case 'set_lux':
+						lamp.lamp_data = {
+						'lux' : lamp_[3]
+						};
+						break;
 				}
+				console.log(lamp_);
+				warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
+				toggleLoading(lamp.lamp, false);
+				write(data, 'Lamp updated');
+				break;
+			case 'message':
+				var lamp_ = data.message.split(' ');
+				console.log(lamp_);
+				var lamp = new Object();
+				lamp.lamp = lamp_[1];
+				switch (lamp_[2]){
+					case 'set_brightness':
+						lamp.lamp_data = {
+						'val' : lamp_[3] * 100
+						};
+						break;
+					case 'set_lux':
+						lamp.lamp_data = {
+						'lux' : lamp_[3]
+						};
+						break;
+				}
+				console.log(lamp_);
 				warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
 				toggleLoading(lamp.lamp, false);
 				write(data, 'Lamp updated');
