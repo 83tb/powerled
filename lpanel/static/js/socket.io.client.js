@@ -112,38 +112,15 @@ socket.on('message', function(data) {
 				switch (lamp_[2]){
 					case 'set_brightness':
 						lamp.lamp_data = {
-						'val' : lamp_[3] * 100
+							'val' : lamp_[3] * 100
 						};
 						break;
 					case 'set_lux':
 						lamp.lamp_data = {
-						'lux' : lamp_[3]
+							'lux' : lamp_[3]
 						};
 						break;
 				}
-				console.log(lamp_);
-				warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
-				toggleLoading(lamp.lamp, false);
-				write(data, 'Lamp updated');
-				break;
-			case 'message':
-				var lamp_ = data.message.split(' ');
-				console.log(lamp_);
-				var lamp = new Object();
-				lamp.lamp = lamp_[1];
-				switch (lamp_[2]){
-					case 'set_brightness':
-						lamp.lamp_data = {
-						'val' : lamp_[3] * 100
-						};
-						break;
-					case 'set_lux':
-						lamp.lamp_data = {
-						'lux' : lamp_[3]
-						};
-						break;
-				}
-				console.log(lamp_);
 				warehouse.warehouselamps().$.updateStatus(lamp.lamp, lamp.lamp_data);
 				toggleLoading(lamp.lamp, false);
 				write(data, 'Lamp updated');
