@@ -4,25 +4,35 @@ body {
 }
 #viewPanel {
 	float: left;
-	margin: 0 10px 0 0;
-	height: 540px;
-	width: 540px;
-	overflow: auto;
+	margin: 0;
+	width: 75%;
+	overflow: hidden;
 }
 #warehouse {
+	background-color: #FEFEFE;
 	overflow: hidden;
 	position: relative;
+	transform-origin: 0 0 0;
 }
-#warehouse #hala,
+#warehouse #hala {
+/*	left: -12%;
+	top: -12%;
+	transform: scale(0.75);*/
+	position:absolute;
+}
 #warehouse .lamp {
-	position:absolute !important;
+	cursor: pointer;
+	position:absolute;
 }
 
 #controls {
 	float:right;
 	vertical-align: top;
 /*	width: 400px;*/
-	width: 380px;
+	width: 25%;
+}
+#controls > * {
+	padding: 0 0 0 5px;
 }
 #controls form {
 	background: inherit;
@@ -38,7 +48,7 @@ body {
 #users {}
 
 #log {
-	height:200px;
+	max-height:200px;
 	overflow: auto;
 }
 #console {

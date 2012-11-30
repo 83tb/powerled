@@ -24,6 +24,8 @@ tempImg.src = tempGrad; //'temperature.jpg';
 			'class' : '.lamp',
 			height : 256,
 			width : 256,
+			warehouseWidth:2217,
+			warehouseHeight:3441,
 			lamps : {},
 			maxTemp: 250,
 			maxLux: 1000,
@@ -31,10 +33,21 @@ tempImg.src = tempGrad; //'temperature.jpg';
 				background:'#E2F4FB',
 				brightness:'#ffc000',
 				temp:tempImg,
-				on:{start:'#b9ce44',end:'#72aa00'},
+				luxbar : 'rgba(0, 153, 204, 1)', //rgba(99, 99, 99, 0.7)
+//				on:{start:'#b9ce44',end:'#72aa00'},
+				on:{start:'#99CC00',end:'#669900'},
+//				off:{start:'#474747',end:'#4C4C4C'},
 				off:{start:'#555555',end:'#111111'},
-				attention:{start:'#ffc000',end:'#ff6600'},
-				error:{start:'#ff1a00',end:'#a50101'},
+//				attention:{start:'#ffc000',end:'#ff6600'},
+				attention:{start:'#FFBB33',end:'#FF8800'},
+//				error:{start:'#ff1a00',end:'#a50101'},
+				error:{start:'#FF4444',end:'#CC0000'},
+				stateStroke: {
+					on:'#598500',
+					off:'rgba(36, 36, 36, 0.9)', //'#262626'
+					attention:'#FF8A00',
+					error:'#AF0000'
+				},
 				infobar:{start:'#ffffff',end:'#e1e1e1'},
 				stroke:'rgba(137,137,137,0.6)',//#898989
 				font:{start:'#e4e6e5',end:'#fffefc'},
@@ -148,7 +161,7 @@ for (var i = 0; i < 8; i++) {
 
 	s=s+30;
 }*/
-init(2217,3441);
+init(settings.warehouseWidth,settings.warehouseHeight);
 jQuery('#warehouse').css({
 	'width':2217,
 	'height':3441
@@ -250,7 +263,6 @@ jQuery('#warehouse').css({
 			}).css({
 				'height' : settings.height + 'px',
 				'width' : settings.width + 'px',
-				'position' : 'relative'
 			});
 			container.append(lampContainer);
 
@@ -284,8 +296,11 @@ jQuery('#warehouse').css({
 			stateGrad.addColorStop(1, stateColor.end);
 			ctx.fillStyle = stateGrad;
 			ctx.beginPath();
-			ctx.arc(cX, cY, innerRadius, 0, Math.PI * 2, counterClockwise);
+			ctx.arc(cX, cY, innerRadius-settings.colors.lineWidth, 0, Math.PI * 2, counterClockwise);
 			ctx.fill();
+			ctx.lineWidth = settings.colors.lineWidth*2;
+			ctx.strokeStyle = stateColor.stroke;
+			ctx.stroke();
 
 
 			/* Drow brightness bar */
@@ -353,7 +368,7 @@ jQuery('#warehouse').css({
 			/* Add stroke
 			 *  - mostly fix for Chrome/Chromium not anty-aliasing image in canvas */
 			ctx.lineWidth = settings.colors.lineWidth;
-			ctx.strokeStyle = 'rgba(99, 99, 99, 0.7)';//settings.colors.stroke;
+			ctx.strokeStyle = settings.colors.luxbar;
 			ctx.stroke();
 
 
@@ -478,24 +493,28 @@ jQuery('#warehouse').css({
 					/* on */
 					var startCol = settings.colors.on.start;
 					var endCol = settings.colors.on.end;
+					var stroke = settings.colors.stateStroke.on
 					var stateMsg = 'Fine';
 					break;
 				case 2:
 					/* attention */
 					var startCol = settings.colors.attention.start;
 					var endCol = settings.colors.attention.end;
+					var stroke = settings.colors.stateStroke.attention
 					var stateMsg = 'Fine';
 					break;
 				case 3:
 					/* error */
 					var startCol = settings.colors.error.start;
 					var endCol = settings.colors.error.end;
+					var stroke = settings.colors.stateStroke.error
 					var stateMsg = 'Fine';
 					break;
 				case 4:
 					/* off */
 					var startCol = settings.colors.off.start;
 					var endCol = settings.colors.off.end;
+					var stroke = settings.colors.stateStroke.off
 					var stateMsg = 'Fine';
 					break;
 				default:
@@ -504,7 +523,7 @@ jQuery('#warehouse').css({
 					var endCol = '';
 					var stateMsg = 'Unknown state';
 			}
-			return {'start':startCol,'end':endCol};
+			return {"start":startCol,"end":endCol,"stroke":stroke};
 		}
 		warehouse.dumpData(obj);
 	}

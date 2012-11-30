@@ -44,14 +44,12 @@ var addMessage = function(data) {
 };
 
 // Create SocketIO instance
-alert(location.hostname);
-var host = (location.hostname == '192.168.1.72')? location.hostname : '192.168.1.72';
-//var socket = new io.Socket(location.hostname, {
-//	port : 9000
-//});
-var socket = new io.Socket(host, {
+var socket = new io.Socket(location.hostname, {
 	port : 9000
 });
+//var socket = new io.Socket(host, {
+//	port : 9000
+//});
 
 socket.connect();
 
