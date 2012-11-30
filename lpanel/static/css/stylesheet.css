@@ -2,13 +2,16 @@ body {
 /*	font-size:16px;*/
 	font-family:sans-serif;
 }
-#warehouse {
+#viewPanel {
 	float: left;
 	margin: 0 10px 0 0;
-	overflow: hidden;
-	position: relative;
 	height: 540px;
 	width: 540px;
+	overflow: auto;
+}
+#warehouse {
+	overflow: hidden;
+	position: relative;
 }
 #warehouse #hala,
 #warehouse .lamp {
@@ -18,7 +21,8 @@ body {
 #controls {
 	float:right;
 	vertical-align: top;
-	width: 400px;
+/*	width: 400px;*/
+	width: 380px;
 }
 #controls form {
 	background: inherit;

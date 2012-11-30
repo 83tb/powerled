@@ -82,7 +82,8 @@ jQuery(document).ready(function() {
 		}
 		jQuery.each(jQuery('.clicked'), function() {
 			var lamp = $(this).attr('id');
-			var data = '{"' + String(current) + '":' + parseFloat(val) + '}';
+//			var data = '{"' + String(current) + '":' + parseFloat(val) +', "command":"set_brightness"'+ '}';
+			var data = '{"val":' + parseFloat(val)/100 +', "command":"set_brightness"'+ '}';
 			var update = (event.type == 'slidestop') ? true : false;
 			setLamp(lamp, data, update);
 		});
@@ -97,7 +98,8 @@ jQuery(document).ready(function() {
 		var val = jQuery(this).val();
 		jQuery.each(jQuery('.clicked'), function() {
 			var lamp = $(this).attr('id');
-			var data = '{"' + String(current) + '":' + parseFloat(val) + '}';
+//			var data = '{"' + String(current) + '":' + parseFloat(val) +', "command":"set_lux"' + '}';
+			var data = '{"val":' + parseFloat(val) +', "command":"set_lux"' + '}';
 			var update = (event.type == 'slidestop') ? true : false;
 			setLamp(lamp, data, update);
 		});
@@ -138,7 +140,7 @@ jQuery(document).ready(function() {
 
 	selectLamp = function(itemID, dblclick) {
 		warehouse.warehouselamps().$.getLamp(itemID)
-		console.log(warehouse.warehouselamps().$.getLamp(itemID));
+//		console.log(warehouse.warehouselamps().$.getLamp(itemID));
 		if (dblclick) {
 			switch(LampID.lamp_data.state) {
 				case 1:
@@ -156,10 +158,10 @@ jQuery(document).ready(function() {
 		sliderBrightness.val(LampID.lamp_data.val).slider('refresh');
 		sliderBrightness.slider('enable');
 		sliderLux.val(LampID.lamp_data.lux).slider('refresh');
-//		sliderLux.slider('enable');
+		sliderLux.slider('enable');
 		onOffState = (LampID.lamp_data.val == 0) ? 4 : LampID.lamp_data.state;
 		switchOnOff.val(onOffState).slider('refresh');
-//		switchOnOff.slider('enable');
+		switchOnOff.slider('enable');
 	}
 
 	$('#leave, #masterButton').click(function(e) {
@@ -177,7 +179,7 @@ setLamp = function(lamp, lamp_data, send) {
 		var send_data = {
 			'warehouse' : window.warehouseID,
 			'action' : 'message',
-			'message' : 'led ' + lamp + ' ' + data.val / 100,
+			'message' : 'led ' + lamp +' '+ data.command +' '+ data.val,
 			'name' : name
 		};
 		msg(send_data);
@@ -256,9 +258,11 @@ WebFont.load({
 		</div>
 	</header>
 	<div class="holo-content ui-content" data-role="content" role="main" data-theme="c">
+		<div id="viewPanel">
 		<section id="warehouse">
 			<canvas id="hala" width="540" height="600">Your browser does not support the HTML5 canvas tag.</canvas>
 		</section>
+		</div>
 		<aside id="controls">
 			<script>
 				$(document).delegate('.ui-navbar ul li > a', 'click', function() {
@@ -292,7 +296,7 @@ WebFont.load({
 					<label for="lampBrightness">Brightness:</label>
 					<input type="range" name="lampBrightness" id="lampBrightness" class="lampSlider" rel="val" value="0" min="0" max="100"  />
 					<label for="lampLux">Luxometer:</label>
-					<input type="range" name="lampLux" id="lampLux" class="lampSlider" rel="lux" value="0" min="0" max="<?php echo $maxLux; ?>"  />
+					<input type="range" name="lampLux" id="lampLux" class="lampSlider" rel="lux" value="0" min="0" max="1200"  /><!-- {{ warehouse.maxLux }} -->
 					<label for="lampStatus">Lamp:</label>
 					<select name="lampStatus" id="lampStatus" data-role="slider">
 						<option value="4">Off</option>

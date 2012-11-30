@@ -16,6 +16,11 @@ q = RedisQueue('LEDY')
 
 
 
+a = RedisQueue('ALARMS')
+
+
+
+
 
 
 @events.on_message(channel="^warehouse-")
@@ -72,12 +77,26 @@ def message(request, socket, context, message):
                 message["name"] = "generic"
 
 
-            # Sends a message over websockets to all clients subscribed to the channel
-            socket.send_and_broadcast_channel(message)
 
+            # Sends a message over websockets to all clients subscribed to the channel
+
+            try:
+                alarms = a.get()
+                message["alarms"] = alarms
+            except:
+                pass
+
+
+            socket.send_and_broadcast_channel(message)
+            #socket.send_and_broadcast_channel(alarms)
             # Put potential order to the queue
             text = str(message["message"])
             q.put(text)
+
+
+
+
+
 
         if message["action"] == "getlamps":
 

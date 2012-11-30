@@ -93,7 +93,9 @@ tempImg.src = tempGrad; //'temperature.jpg';
 		}
 
 		this._initLamps = function(lamps_data) {
+
 var padding=10;
+/*
 var c=document.getElementById("hala");
 var ctx=c.getContext("2d");
 ctx.beginPath();
@@ -145,8 +147,12 @@ for (var i = 0; i < 8; i++) {
 	ctx.stroke();
 
 	s=s+30;
-}
-//init(2217,3441);
+}*/
+init(2217,3441);
+jQuery('#warehouse').css({
+	'width':2217,
+	'height':3441
+});
 
 //			var lamps_data = '"1":{"val": 12, "temp": 90, "state": 3, "lux": 929},"2":{"val": 9, "temp": 29, "state": 4, "lux": 1160}';
 			var data = jQuery.parseJSON(lamps_data.replace(/\'/g, '"'));
@@ -231,8 +237,8 @@ for (var i = 0; i < 8; i++) {
 			ctx.clearRect(0, 0, settings.width, settings.height);
 			var tempPRC = obj.lamp_data.temp/settings.maxTemp;
 			var luxPRC = obj.lamp_data.lux/settings.maxLux;
-			obj.procentCircle(parseInt(obj.lamp_data.val)/100, tempPRC, obj.lamp_data.state, luxPRC);
-			obj.setText(obj.lamp_data.val, obj.lamp_data.temp, obj.lamp_data.state, obj.lamp_data.lux);
+			obj.procentCircle(parseInt(obj.lamp_data.val)/100, tempPRC, parseInt(obj.lamp_data.state), luxPRC);
+			obj.setText(obj.lamp_data.val, obj.lamp_data.temp, parseInt(obj.lamp_data.state), obj.lamp_data.lux);
 		}
 
 		this.drowLamp = function(lampID) {
@@ -423,7 +429,7 @@ for (var i = 0; i < 8; i++) {
 			var stringLight = (val).toFixed(0) + '%';
  */
 			var stringTemp = (temp).toFixed(0) + "\u00B0"+'C';
-			var stringLux = (lux).toFixed(0) + ' lux';
+			var stringLux = lux + ' lux';
 //			valueText.text(string);
 //			'height' : fontSize.toString() + 'px',
 //			'textShadow' : settings.colors.shadow,
